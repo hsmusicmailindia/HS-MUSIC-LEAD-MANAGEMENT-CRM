@@ -847,6 +847,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      min-width: 186px;
+      min-height: 186px;
+    }
+
+    .donut-svg-wrap svg {
+      display: block;
+      width: 186px;
+      height: 186px;
+      max-width: 100%;
+      overflow: visible;
     }
 
     .donut-slice {
@@ -2752,6 +2762,39 @@
         'Dance': '#E11D48',
       };
 
+      const EXTRA_COURSE_COLORS = [
+        '#0D9488',
+        '#EA580C',
+        '#2563EB',
+        '#9333EA',
+        '#65A30D',
+        '#475569',
+      ];
+
+      function normalizeCourseName(rawCourse) {
+        const cleaned = String(rawCourse || '').trim();
+        if (!cleaned) return 'Other';
+        const match = COURSES.find((c) => c.toLowerCase() === cleaned.toLowerCase());
+        return match || cleaned;
+      }
+
+      function getAllKnownCourses() {
+        const list = COURSES.slice();
+        state.leads.forEach((l) => {
+          const norm = normalizeCourseName(l.course);
+          if (!list.includes(norm)) list.push(norm);
+        });
+        return list;
+      }
+
+      function getCourseColor(courseName) {
+        const norm = normalizeCourseName(courseName);
+        if (COURSE_COLORS[norm]) return COURSE_COLORS[norm];
+        const all = getAllKnownCourses();
+        const extraIdx = Math.max(0, all.indexOf(norm) - COURSES.length);
+        return EXTRA_COURSE_COLORS[extraIdx % EXTRA_COURSE_COLORS.length];
+      }
+
       const SOP_STAGES = [
         'New',
         'Trial Booked',
@@ -4240,7 +4283,7 @@ function doPost(e) {
 
         return timeLeads
           .filter((l) => {
-            if (state.selectedCourseFilter !== 'ALL' && l.course !== state.selectedCourseFilter) return false;
+            if (state.selectedCourseFilter !== 'ALL' && normalizeCourseName(l.course) !== state.selectedCourseFilter) return false;
 
             if (stageFilter === 'DUE') {
               const isClosed = l.stage === 'Admitted' || l.stage === 'Lost';
@@ -4272,6 +4315,30 @@ function doPost(e) {
       /* -----------------------------------------------------------------------
          10. VISUAL INFOGRAPHICS RENDERERS (DONUT, MONTHLY TREND & FUNNEL)
       ----------------------------------------------------------------------- */
+      function polarToCartesian(cx, cy, radius, angleInDegrees) {
+        const rad = ((angleInDegrees - 90) * Math.PI) / 180;
+        return {
+          x: cx + radius * Math.cos(rad),
+          y: cy + radius * Math.sin(rad),
+        };
+      }
+
+      function describeDonutArc(cx, cy, outerR, innerR, startAngle, endAngle) {
+        const outerStart = polarToCartesian(cx, cy, outerR, startAngle);
+        const outerEnd = polarToCartesian(cx, cy, outerR, endAngle);
+        const innerEnd = polarToCartesian(cx, cy, innerR, endAngle);
+        const innerStart = polarToCartesian(cx, cy, innerR, startAngle);
+        const largeArcFlag = endAngle - startAngle > 180 ? 1 : 0;
+
+        return [
+          `M ${outerStart.x.toFixed(2)} ${outerStart.y.toFixed(2)}`,
+          `A ${outerR} ${outerR} 0 ${largeArcFlag} 1 ${outerEnd.x.toFixed(2)} ${outerEnd.y.toFixed(2)}`,
+          `L ${innerEnd.x.toFixed(2)} ${innerEnd.y.toFixed(2)}`,
+          `A ${innerR} ${innerR} 0 ${largeArcFlag} 0 ${innerStart.x.toFixed(2)} ${innerStart.y.toFixed(2)}`,
+          'Z',
+        ].join(' ');
+      }
+
       function renderCourseDonutInfographic(timeLeads) {
         const svgWrap = document.getElementById('courseDonutSvgWrap');
         const legendEl = document.getElementById('courseDonutLegend');
@@ -4280,8 +4347,9 @@ function doPost(e) {
         resetBtn.style.display = state.selectedCourseFilter !== 'ALL' ? 'inline-flex' : 'none';
 
         const total = timeLeads.length;
-        const courseStats = COURSES.map((course) => {
-          const items = timeLeads.filter((l) => l.course === course);
+        const allCourses = getAllKnownCourses();
+        const courseStats = allCourses.map((course) => {
+          const items = timeLeads.filter((l) => normalizeCourseName(l.course) === course);
           const count = items.length;
           const admitted = items.filter((l) => l.stage === 'Admitted').length;
           const sharePct = total > 0 ? Math.round((count / total) * 100) : 0;
@@ -4292,39 +4360,54 @@ function doPost(e) {
             admitted,
             sharePct,
             convPct,
-            color: COURSE_COLORS[course] || '#111827',
+            color: getCourseColor(course),
           };
         });
 
-        const r = 68;
-        const circ = 2 * Math.PI * r;
-        let offset = 0;
-        let slicesSvg = '';
+        const nonZeroStats = courseStats.filter((st) => st.count > 0);
+        const outerR = 82;
+        const innerR = 54;
+        const midR = 68;
+        const ringWidth = outerR - innerR;
 
-        if (total === 0) {
-          slicesSvg = `<circle cx="100" cy="100" r="${r}" fill="none" stroke="#E5E7EB" stroke-width="26" />`;
-        } else {
-          courseStats.forEach((st) => {
-            if (st.count === 0) return;
-            const segLen = (st.count / total) * circ;
-            const gapLen = total > st.count ? 2.2 : 0;
-            const dash = Math.max(1, segLen - gapLen);
+        // Always render a subtle base ring track so the donut frame stays crisp
+        let slicesSvg = `<circle cx="100" cy="100" r="${midR}" fill="none" stroke="#E5E7EB" stroke-width="${ringWidth}" />`;
+
+        if (total > 0 && nonZeroStats.length === 1) {
+          // Single-course 100% ring (avoids degenerate 360-degree SVG arc)
+          const st = nonZeroStats[0];
+          const isDimmed = state.selectedCourseFilter !== 'ALL' && state.selectedCourseFilter !== st.course;
+          slicesSvg += `
+            <circle
+              class="donut-slice ${isDimmed ? 'dimmed' : ''}"
+              data-donut-course="${escapeAttr(st.course)}"
+              cx="100" cy="100" r="${midR}"
+              fill="none"
+              stroke="${st.color}"
+              stroke-width="${ringWidth}">
+              <title>${escapeHtml(st.course)}: ${st.count} enquiries (${st.sharePct}% share • ${st.convPct}% conv)</title>
+            </circle>`;
+        } else if (total > 0 && nonZeroStats.length > 1) {
+          let currentAngle = 0;
+          nonZeroStats.forEach((st) => {
+            const sweep = (st.count / total) * 360;
+            const startAngle = currentAngle;
+            const endAngle = currentAngle + sweep;
             const isDimmed = state.selectedCourseFilter !== 'ALL' && state.selectedCourseFilter !== st.course;
+            const dPath = describeDonutArc(100, 100, outerR, innerR, startAngle, endAngle);
 
             slicesSvg += `
-              <circle
+              <path
                 class="donut-slice ${isDimmed ? 'dimmed' : ''}"
                 data-donut-course="${escapeAttr(st.course)}"
-                cx="100" cy="100" r="${r}"
-                fill="none"
-                stroke="${st.color}"
-                stroke-width="26"
-                stroke-dasharray="${dash.toFixed(2)} ${(circ - dash).toFixed(2)}"
-                stroke-dashoffset="${(-offset).toFixed(2)}"
-                transform="rotate(-90 100 100)">
+                d="${dPath}"
+                fill="${st.color}"
+                stroke="#FFFFFF"
+                stroke-width="2"
+                stroke-linejoin="round">
                 <title>${escapeHtml(st.course)}: ${st.count} enquiries (${st.sharePct}% share • ${st.convPct}% conv)</title>
-              </circle>`;
-            offset += segLen;
+              </path>`;
+            currentAngle = endAngle;
           });
         }
 
@@ -4337,8 +4420,9 @@ function doPost(e) {
         svgWrap.innerHTML = `
           <svg viewBox="0 0 200 200" width="186" height="186" role="img" aria-label="Course-wise enquiry distribution">
             ${slicesSvg}
-            <text x="100" y="96" text-anchor="middle" font-size="26" font-weight="800" fill="#111827">${centerNum}</text>
-            <text x="100" y="114" text-anchor="middle" font-size="10.5" font-weight="700" fill="#6B7280">${escapeHtml(centerLbl)}</text>
+            <circle cx="100" cy="100" r="${innerR - 2}" fill="#FFFFFF" pointer-events="none" />
+            <text x="100" y="96" text-anchor="middle" font-size="26" font-weight="800" fill="#111827" pointer-events="none">${centerNum}</text>
+            <text x="100" y="114" text-anchor="middle" font-size="10.5" font-weight="700" fill="#6B7280" pointer-events="none">${escapeHtml(centerLbl)}</text>
           </svg>`;
 
         legendEl.innerHTML = courseStats
@@ -4372,7 +4456,7 @@ function doPost(e) {
 
         const courseScope = state.selectedCourseFilter === 'ALL'
           ? state.leads
-          : state.leads.filter((l) => l.course === state.selectedCourseFilter);
+          : state.leads.filter((l) => normalizeCourseName(l.course) === state.selectedCourseFilter);
         const courseText = state.selectedCourseFilter === 'ALL' ? 'All Courses' : state.selectedCourseFilter;
         subtitleEl.textContent = `Last 6 calendar months • Filter: ${courseText}`;
 
@@ -4579,10 +4663,10 @@ function doPost(e) {
         const coursePillsEl = document.getElementById('coursePills');
         let pillsHtml = `<span class="filter-label">Course (1-Click):</span>`;
         pillsHtml += `<button type="button" class="pill ${state.selectedCourseFilter === 'ALL' ? 'active' : ''}" data-course-pill="ALL">All Courses <span class="count">${timeLeads.length}</span></button>`;
-        COURSES.forEach((c) => {
-          const cnt = timeLeads.filter((l) => l.course === c).length;
+        getAllKnownCourses().forEach((c) => {
+          const cnt = timeLeads.filter((l) => normalizeCourseName(l.course) === c).length;
           const active = state.selectedCourseFilter === c;
-          const dotColor = COURSE_COLORS[c] || '#111827';
+          const dotColor = getCourseColor(c);
           pillsHtml += `
             <button type="button" class="pill ${active ? 'active' : ''}" data-course-pill="${escapeAttr(c)}">
               <span style="width:7px; height:7px; border-radius:50%; background:${active ? '#FFFFFF' : dotColor}; display:inline-block;"></span>
@@ -4600,7 +4684,7 @@ function doPost(e) {
         // KPI Cards
         const scopeLeads = state.selectedCourseFilter === 'ALL'
           ? timeLeads
-          : timeLeads.filter((l) => l.course === state.selectedCourseFilter);
+          : timeLeads.filter((l) => normalizeCourseName(l.course) === state.selectedCourseFilter);
         const total = scopeLeads.length;
         const trials = scopeLeads.filter(isTrialLead).length;
         const admitted = scopeLeads.filter((l) => l.stage === 'Admitted').length;
@@ -4659,7 +4743,7 @@ function doPost(e) {
         tbody.innerHTML = filteredLeads.map((lead) => {
           const sop = getSOPGuidanceForLead(lead);
           const stageCls = getStageCssClass(lead.stage);
-          const cColor = COURSE_COLORS[lead.course] || '#111827';
+          const cColor = getCourseColor(lead.course);
           return `
             <tr>
               <td style="white-space: nowrap;">
@@ -4708,7 +4792,7 @@ function doPost(e) {
         mobileList.innerHTML = filteredLeads.map((lead) => {
           const sop = getSOPGuidanceForLead(lead);
           const stageCls = getStageCssClass(lead.stage);
-          const cColor = COURSE_COLORS[lead.course] || '#111827';
+          const cColor = getCourseColor(lead.course);
           return `
             <div class="mobile-lead-card">
               <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
@@ -5092,7 +5176,11 @@ function doPost(e) {
           const data = await res.json();
           if (data && data.status === 'success') {
             if (Array.isArray(data.leads) && data.leads.length > 0) {
-              state.leads = data.leads.map((l) => ({ ...l, phone: sanitizeIndianPhone(l.phone) }));
+              state.leads = data.leads.map((l) => ({
+                ...l,
+                phone: sanitizeIndianPhone(l.phone),
+                course: normalizeCourseName(l.course),
+              }));
               saveLeadsLocal();
             }
             if (Array.isArray(data.users) && data.users.length > 0) {
@@ -5211,7 +5299,11 @@ function doPost(e) {
               `Is backup file mein ${restoredLeads.length} leads hain. Restore karne se current leads replace ho jayengi. Continue karein?`,
               'Restore Now',
               () => {
-                state.leads = restoredLeads.map((l) => ({ ...l, phone: sanitizeIndianPhone(l.phone) }));
+                state.leads = restoredLeads.map((l) => ({
+                  ...l,
+                  phone: sanitizeIndianPhone(l.phone),
+                  course: normalizeCourseName(l.course),
+                }));
                 if (state.currentUser && state.currentUser.role === 'Admin') {
                   if (Array.isArray(parsed.users) && parsed.users.length > 0) state.users = parsed.users;
                   if (Array.isArray(parsed.loginLogs)) state.loginLogs = parsed.loginLogs;
@@ -5479,7 +5571,9 @@ function doPost(e) {
           const lRaw = localStorage.getItem(KEYS.LEADS);
           if (lRaw) {
             const parsed = JSON.parse(lRaw);
-            if (Array.isArray(parsed)) state.leads = parsed;
+            if (Array.isArray(parsed)) {
+              state.leads = parsed.map((l) => ({ ...l, course: normalizeCourseName(l.course) }));
+            }
           }
           const uRaw = localStorage.getItem(KEYS.USERS);
           if (uRaw) {
