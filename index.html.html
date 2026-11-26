@@ -1,0 +1,3968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HS Music — Lead Management & Conversion CRM</title>
+  <style>
+    /* =========================================================================
+       1. DESIGN TOKENS & BASE STYLES (ZERO EXTERNAL CDN — 100% OFFLINE READY)
+    ========================================================================= */
+    :root {
+      --bg: #F5F5F7;
+      --surface: #FFFFFF;
+      --surface-subtle: #F9FAFB;
+      --border: #E5E7EB;
+      --border-strong: #D1D5DB;
+      --text-primary: #111827;
+      --text-secondary: #4B5563;
+      --text-muted: #6B7280;
+      --accent: #111827;
+      --accent-hover: #1F2937;
+      --emerald: #047857;
+      --emerald-light: #10B981;
+      --emerald-bg: #ECFDF5;
+      --emerald-border: #A7F3D0;
+      --amber: #D97706;
+      --amber-dark: #92400E;
+      --amber-bg: #FEF3C7;
+      --amber-border: #FDE68A;
+      --danger: #B91C1C;
+      --danger-bg: #FEF2F2;
+      --danger-border: #FECACA;
+      --blue: #1D4ED8;
+      --blue-bg: #EFF6FF;
+      --blue-border: #BFDBFE;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 44px rgba(0, 0, 0, 0.16);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    /* =========================================================================
+       2. TOP NAVIGATION BAR
+    ========================================================================= */
+    .topbar {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .topbar-inner {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 13px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #111827 0%, #374151 100%);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: -0.5px;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+    }
+
+    .brand-text h1 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text-primary);
+      line-height: 1.25;
+    }
+
+    .brand-text p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: var(--surface-subtle);
+      border-color: var(--border-strong);
+    }
+
+    .btn:active {
+      transform: translateY(0.5px);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #FFFFFF;
+      border-color: var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .btn-gold {
+      background: var(--amber-bg);
+      color: var(--amber-dark);
+      border-color: var(--amber-border);
+    }
+
+    .btn-gold:hover {
+      background: #FDE68A;
+    }
+
+    .btn-success {
+      background: var(--emerald);
+      color: #FFFFFF;
+      border-color: var(--emerald);
+    }
+
+    .btn-success:hover {
+      background: #065F46;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #FFFFFF;
+      border-color: var(--danger);
+    }
+
+    .btn-danger:hover {
+      background: #991B1B;
+    }
+
+    .btn-danger-outline {
+      color: var(--danger);
+      border-color: var(--danger-border);
+      background: #FFFFFF;
+    }
+
+    .btn-danger-outline:hover {
+      background: var(--danger-bg);
+    }
+
+    .btn-sm {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    /* Cloud Sync Status Pill */
+    .sync-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-secondary);
+      transition: all 0.15s ease;
+    }
+
+    .sync-badge:hover {
+      background: var(--surface-subtle);
+      border-color: var(--border-strong);
+    }
+
+    .sync-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #9CA3AF;
+      flex-shrink: 0;
+    }
+
+    .sync-badge.synced {
+      background: var(--emerald-bg);
+      color: var(--emerald);
+      border-color: var(--emerald-border);
+    }
+    .sync-badge.synced .sync-dot {
+      background: #10B981;
+    }
+
+    .sync-badge.syncing {
+      background: var(--blue-bg);
+      color: var(--blue);
+      border-color: var(--blue-border);
+    }
+    .sync-badge.syncing .sync-dot {
+      background: #3B82F6;
+      animation: pulseDot 1s infinite;
+    }
+
+    .sync-badge.error {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border-color: var(--danger-border);
+    }
+    .sync-badge.error .sync-dot {
+      background: #EF4444;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    /* =========================================================================
+       3. MAIN CONTAINER, GOLDEN RULE BANNER & FILTERS
+    ========================================================================= */
+    .container {
+      max-width: 1380px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 20px 56px;
+      flex: 1;
+    }
+
+    .print-header {
+      display: none;
+    }
+
+    .sop-banner {
+      background: linear-gradient(90deg, #111827 0%, #1F2937 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sop-banner-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #F3F4F6;
+    }
+
+    .sop-tag {
+      background: #F59E0B;
+      color: #111827;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-banner {
+      background: rgba(255, 255, 255, 0.14);
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .btn-banner:hover {
+      background: rgba(255, 255, 255, 0.24);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* Filters Card */
+    .filter-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .filter-row + .filter-row {
+      margin-top: 13px;
+      padding-top: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-right: 4px;
+    }
+
+    .pill {
+      padding: 6px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--surface-subtle);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+      background: #FFFFFF;
+    }
+
+    .pill.active {
+      background: var(--text-primary);
+      color: #FFFFFF;
+      border-color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .pill .count {
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(0, 0, 0, 0.07);
+    }
+
+    .pill.active .count {
+      background: rgba(255, 255, 255, 0.22);
+      color: #FFFFFF;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .input, select, textarea {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--text-primary);
+      background: var(--surface);
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .input:focus, select:focus, textarea:focus {
+      border-color: var(--text-primary);
+    }
+
+    /* =========================================================================
+       4. KPI CARDS
+    ========================================================================= */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      text-align: left;
+      width: 100%;
+    }
+
+    .kpi-card.clickable {
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .kpi-card.clickable:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: #FCD34D;
+    }
+
+    .kpi-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .kpi-value {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin: 6px 0 4px;
+      color: var(--text-primary);
+      line-height: 1.15;
+    }
+
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: #E5E7EB;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--emerald);
+      transition: width 0.35s ease;
+    }
+
+    /* =========================================================================
+       5. VISUAL ANALYTICS & CONVERSION INFOGRAPHICS DASHBOARD (PURE SVG)
+    ========================================================================= */
+    .analytics-section {
+      margin-bottom: 18px;
+    }
+
+    .analytics-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .analytics-header h2 {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.25px;
+      color: var(--text-primary);
+    }
+
+    .scope-chip {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .infographic-top-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.28fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart-card-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .chart-card-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .chart-card-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Card A: Donut Layout */
+    .donut-layout {
+      display: grid;
+      grid-template-columns: 196px 1fr;
+      align-items: center;
+      gap: 18px;
+      flex: 1;
+    }
+
+    .donut-svg-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .donut-slice {
+      cursor: pointer;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      transform-origin: 100px 100px;
+    }
+
+    .donut-slice:hover {
+      opacity: 0.88;
+      transform: scale(1.03);
+    }
+
+    .donut-slice.dimmed {
+      opacity: 0.25;
+    }
+
+    .donut-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .legend-row {
+      display: grid;
+      grid-template-columns: 12px minmax(88px, 1fr) auto auto;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 9px;
+      border-radius: 9px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.14s ease;
+      font-size: 12.5px;
+      background: var(--surface-subtle);
+    }
+
+    .legend-row:hover {
+      background: #FFFFFF;
+      border-color: var(--border-strong);
+    }
+
+    .legend-row.selected {
+      background: #FFFFFF;
+      border-color: var(--text-primary);
+      box-shadow: 0 0 0 1px var(--text-primary);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .legend-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .legend-metric {
+      font-weight: 700;
+      color: var(--text-primary);
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .legend-metric span {
+      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .legend-conv {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--emerald-bg);
+      color: var(--emerald);
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .legend-conv.zero {
+      background: #F3F4F6;
+      color: var(--text-muted);
+    }
+
+    /* Card B: Monthly Bar + Trend Line Chart */
+    .chart-legend-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .chart-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .swatch-box {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    .swatch-line {
+      width: 14px;
+      height: 3px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .swatch-dashed {
+      width: 14px;
+      height: 0;
+      border-top: 2px dashed #D97706;
+      display: inline-block;
+    }
+
+    .monthly-svg-wrap {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .monthly-svg-wrap svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .monthly-mini-table-wrap {
+      margin-top: 12px;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+      overflow-x: auto;
+    }
+
+    .mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+    }
+
+    .mini-table th {
+      text-align: left;
+      padding: 5px 8px;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.4px;
+      background: var(--surface-subtle);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mini-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #F3F4F6;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .mini-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Card C: Full-Width SOP Conversion Funnel */
+    .bottleneck-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--amber-border);
+      background: var(--amber-bg);
+      color: var(--amber-dark);
+    }
+
+    .bottleneck-pill.healthy {
+      background: var(--emerald-bg);
+      color: var(--emerald);
+      border-color: var(--emerald-border);
+    }
+
+    .funnel-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .funnel-step {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 15px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .funnel-step.is-bottleneck {
+      border-color: #F59E0B;
+      background: #FFFDF7;
+    }
+
+    .funnel-step-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .funnel-step-num {
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+
+    .funnel-pct-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .funnel-step-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .funnel-step-count {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: var(--text-primary);
+      line-height: 1.1;
+    }
+
+    .funnel-bar-track {
+      width: 100%;
+      height: 8px;
+      background: #E5E7EB;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .funnel-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    .funnel-dropoff {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .funnel-dropoff strong {
+      color: var(--text-primary);
+    }
+
+    /* =========================================================================
+       6. MAIN LEADS TABLE & MOBILE CARDS
+    ========================================================================= */
+    .table-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .table-toolbar {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table.leads-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .leads-table th {
+      background: var(--surface-subtle);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .leads-table td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .leads-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .leads-table tbody tr:hover td {
+      background: #FAFAFA;
+    }
+
+    .lead-name {
+      font-weight: 700;
+      color: var(--text-primary);
+      font-size: 13.5px;
+    }
+
+    .lead-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-course {
+      background: #F3F4F6;
+      color: #111827;
+      border: 1px solid #E5E7EB;
+    }
+
+    .badge-due {
+      background: var(--amber-bg);
+      color: var(--amber-dark);
+      border: 1px solid var(--amber-border);
+    }
+
+    .badge-overdue {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid var(--danger-border);
+    }
+
+    .badge-ok {
+      background: var(--emerald-bg);
+      color: var(--emerald);
+      border: 1px solid var(--emerald-border);
+    }
+
+    .badge-fast {
+      background: var(--blue-bg);
+      color: var(--blue);
+      border: 1px solid var(--blue-border);
+    }
+
+    .stage-select {
+      padding: 5px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .stage-New { background: #EEF2FF; color: #3730A3; border-color: #C7D2FE; }
+    .stage-TrialBooked { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
+    .stage-TrialDone { background: #F5F3FF; color: #5B21B6; border-color: #DDD6FE; }
+    .stage-FollowUp { background: #FFF7ED; color: #9A3412; border-color: #FED7AA; }
+    .stage-Admitted { background: #ECFDF5; color: #065F46; border-color: #A7F3D0; }
+    .stage-Lost { background: #FEF2F2; color: #991B1B; border-color: #FECACA; }
+
+    .action-btns {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: nowrap;
+    }
+
+    .icon-btn {
+      padding: 6px 9px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      color: var(--text-primary);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.12s ease;
+    }
+
+    .icon-btn:hover {
+      background: var(--surface-subtle);
+      border-color: var(--border-strong);
+    }
+
+    .icon-btn.wa {
+      color: var(--emerald);
+      border-color: var(--emerald-border);
+      background: var(--emerald-bg);
+    }
+
+    .icon-btn.wa:hover {
+      background: #D1FAE5;
+    }
+
+    .mobile-cards-list {
+      display: none;
+    }
+
+    .mobile-lead-card {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mobile-lead-card:last-child {
+      border-bottom: none;
+    }
+
+    /* =========================================================================
+       7. MODALS, REMINDERS, CODE BOX & TOASTS (ZERO NATIVE ALERT/CONFIRM)
+    ========================================================================= */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 24, 39, 0.56);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 650px;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      animation: modalIn 0.18s ease-out;
+    }
+
+    .modal.modal-lg {
+      max-width: 820px;
+    }
+
+    .modal.modal-sm {
+      max-width: 420px;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+
+    .modal-header h3 {
+      font-size: 16.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .modal-close {
+      background: #F3F4F6;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .modal-close:hover {
+      background: #E5E7EB;
+    }
+
+    .modal-body {
+      padding: 20px 22px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal-footer {
+      padding: 14px 22px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      background: var(--surface-subtle);
+      flex-shrink: 0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .auto-hint {
+      font-size: 11px;
+      color: var(--blue);
+      background: var(--blue-bg);
+      padding: 6px 10px;
+      border-radius: 6px;
+      margin-top: 2px;
+    }
+
+    .inline-error {
+      display: none;
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--danger);
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    .inline-error.show {
+      display: block;
+    }
+
+    /* Reminder Popup Cards */
+    .reminder-item {
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--amber);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      background: #FFFFFF;
+    }
+
+    .reminder-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .reminder-item.overdue {
+      border-left-color: var(--danger);
+      background: #FFFDFD;
+    }
+
+    .reminder-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .reminder-sop-box {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .reminder-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Apps Script Code Box */
+    .code-box {
+      background: #111827;
+      color: #F9FAFB;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11.5px;
+      padding: 14px;
+      border-radius: 10px;
+      max-height: 220px;
+      overflow: auto;
+      white-space: pre;
+      line-height: 1.48;
+      user-select: all;
+    }
+
+    /* SOP Reference Cards */
+    .sop-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .sop-step-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      background: var(--surface-subtle);
+    }
+
+    .sop-step-card h4 {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+
+    .sop-step-card p, .sop-step-card li {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .sop-step-card ul {
+      padding-left: 18px;
+      margin-top: 6px;
+    }
+
+    .sop-step-card li + li {
+      margin-top: 5px;
+    }
+
+    /* Toast */
+    .toast-wrap {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 250;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast-item {
+      background: #111827;
+      color: #FFFFFF;
+      padding: 11px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.2s ease;
+    }
+
+    .toast-item.error {
+      background: var(--danger);
+    }
+
+    .toast-item.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .footer {
+      max-width: 1380px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 12px 20px 26px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* =========================================================================
+       8. RESPONSIVE BREAKPOINTS
+    ========================================================================= */
+    @media (max-width: 1100px) {
+      .infographic-top-grid {
+        grid-template-columns: 1fr;
+      }
+      .funnel-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 920px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .table-wrap {
+        display: none;
+      }
+      .mobile-cards-list {
+        display: block;
+      }
+      .donut-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+      .funnel-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .container {
+        padding: 14px 12px 44px;
+      }
+    }
+
+    /* =========================================================================
+       9. CLEAN A4 PRINT / PDF EXPORT STYLES (INCLUDES SVGs & KPIs)
+    ========================================================================= */
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      body {
+        background: #FFFFFF !important;
+        color: #000000 !important;
+        font-size: 10pt;
+      }
+      .topbar, .sop-banner, .filter-card, .table-toolbar, .action-btns,
+      .no-print, .modal-backdrop, .toast-wrap, .footer, .mobile-cards-list {
+        display: none !important;
+      }
+      .container {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      .print-header {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #111827;
+        padding-bottom: 10px;
+        margin-bottom: 14px;
+      }
+      .print-header h1 {
+        font-size: 17pt;
+        font-weight: 800;
+        color: #111827;
+      }
+      .print-header p {
+        font-size: 9.5pt;
+        color: #374151;
+        margin-top: 2px;
+      }
+      .kpi-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .kpi-card {
+        border: 1px solid #9CA3AF;
+        box-shadow: none;
+        padding: 10px;
+        border-radius: 8px;
+      }
+      .kpi-value {
+        font-size: 18pt;
+      }
+      .infographic-top-grid {
+        grid-template-columns: 1fr 1.25fr !important;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .chart-card {
+        border: 1px solid #9CA3AF;
+        box-shadow: none;
+        padding: 12px;
+        border-radius: 8px;
+        break-inside: avoid;
+      }
+      .donut-layout {
+        grid-template-columns: 150px 1fr !important;
+        gap: 10px;
+      }
+      .funnel-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 8px;
+      }
+      .table-wrap {
+        display: block !important;
+        overflow: visible !important;
+      }
+      .table-card {
+        border: 1px solid #9CA3AF;
+        box-shadow: none;
+        border-radius: 6px;
+        margin-top: 12px;
+      }
+      .leads-table th {
+        background: #111827 !important;
+        color: #FFFFFF !important;
+        padding: 7px 6px;
+        font-size: 8.5pt;
+      }
+      .leads-table td {
+        padding: 6px;
+        font-size: 8.5pt;
+        border: 1px solid #D1D5DB;
+      }
+      .stage-select {
+        border: none !important;
+        background: transparent !important;
+        color: #111827 !important;
+        appearance: none;
+        -webkit-appearance: none;
+        padding: 0;
+        font-weight: 700;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================================
+       1. TOP NAVIGATION BAR
+  ========================================================================= -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-logo">HS</div>
+        <div class="brand-text">
+          <h1>HS Music — Lead &amp; Conversion CRM</h1>
+          <p>Preetamnagar, Prayagraj • Google Lead Conversion System (SOP)</p>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button type="button" class="sync-badge" id="syncStatusPill" title="Configure Google Sheet &amp; Cloud Storage">
+          <span class="sync-dot"></span>
+          <span id="syncStatusText">Cloud: Setup Google Sheet</span>
+        </button>
+
+        <button type="button" class="btn btn-gold" id="reminderBellBtn">
+          🔔 Follow-ups Due (<span id="dueCountBadge">0</span>)
+        </button>
+
+        <button type="button" class="btn" id="openSopBtn">
+          📋 Calling &amp; WhatsApp SOP
+        </button>
+
+        <button type="button" class="btn" id="downloadPdfBtn">
+          📄 Download PDF
+        </button>
+
+        <button type="button" class="btn btn-primary" id="openAddLeadBtn">
+          + New Enquiry
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       MAIN DASHBOARD CONTAINER
+  ========================================================================= -->
+  <main class="container">
+    <!-- Dedicated Print / PDF Header -->
+    <div class="print-header">
+      <div>
+        <h1>HS MUSIC, PREETAMNAGAR — LEAD &amp; CONVERSION REPORT</h1>
+        <p id="printMetaLine">Generated on: — | Filter: All Courses • Last 3 Months</p>
+      </div>
+      <div style="text-align: right; font-size: 9pt; color: #4B5563;">
+        <div style="font-weight: 700; color: #111827;">Google Lead Conversion SOP</div>
+        <div>Target Benchmark: 40% Conversion</div>
+      </div>
+    </div>
+
+    <!-- 2. GOLDEN RULE SOP STRIP -->
+    <section class="sop-banner">
+      <div class="sop-banner-left">
+        <span class="sop-tag">Golden Rule</span>
+        <span><strong>Call par fees kabhi mat batao!</strong> Har Google lead par <strong>5 minute ke andar</strong> call karein aur <strong>30-Minute Free Trial Class</strong> book karein.</span>
+      </div>
+      <button type="button" class="btn btn-sm btn-banner" id="bannerSopBtn">
+        View 2-Min Script →
+      </button>
+    </section>
+
+    <!-- 3. ONE-CLICK FILTERS -->
+    <section class="filter-card">
+      <div class="filter-row">
+        <div class="filter-group" id="timePills">
+          <span class="filter-label">Timeframe:</span>
+          <button type="button" class="pill" data-days="15">Last 15 Days (SOP)</button>
+          <button type="button" class="pill" data-days="30">Last 30 Days</button>
+          <button type="button" class="pill active" data-days="90">Last 3 Months (90d)</button>
+          <button type="button" class="pill" data-days="180">Last 6 Months</button>
+          <button type="button" class="pill" data-days="all">All Time</button>
+        </div>
+
+        <div class="search-box">
+          <input type="text" id="searchInput" class="input" placeholder="Search name, phone, notes..." />
+          <select id="stageFilter">
+            <option value="ALL">All Stages</option>
+            <option value="DUE">🔔 Due Today / Overdue</option>
+            <option value="New">New (5m Call)</option>
+            <option value="Trial Booked">Trial Booked</option>
+            <option value="Trial Done - Day 0">Trial Done - Day 0</option>
+            <option value="Follow-up Day 2">Follow-up Day 2</option>
+            <option value="Follow-up Day 5">Follow-up Day 5</option>
+            <option value="Follow-up Day 7">Follow-up Day 7</option>
+            <option value="Admitted">Admitted ✓</option>
+            <option value="Lost">Lost</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="filter-row">
+        <div class="filter-group" id="coursePills">
+          <!-- Populated dynamically with live counts -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. FOUR KPI SUMMARY CARDS -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">Total Enquiries</div>
+        <div class="kpi-value" id="kpiTotal">0</div>
+        <div class="kpi-sub" id="kpiTotalSub">Selected period &amp; course</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-title">Free Trials Booked / Done</div>
+        <div class="kpi-value" id="kpiTrials">0</div>
+        <div class="kpi-sub" id="kpiTrialsSub">Trial booking rate: 0%</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-title">Admissions &amp; Conversion</div>
+        <div class="kpi-value" id="kpiAdmitted">0 <span style="font-size: 16px; font-weight: 700; color: var(--emerald);">(0%)</span></div>
+        <div class="kpi-sub">SOP Target: <strong>40%</strong> (Baseline: 20%)</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="convProgressBar" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <button type="button" class="kpi-card clickable" id="kpiDueCard">
+        <div class="kpi-title">Follow-Ups Due Today</div>
+        <div class="kpi-value" id="kpiDue" style="color: var(--amber);">0</div>
+        <div class="kpi-sub" id="kpiDueSub">Click to open reminder popup →</div>
+      </button>
+    </section>
+
+    <!-- 5. FULL VISUAL INFOGRAPHICS DASHBOARD (PURE SVG — INTERACTIVE & PDF-READY) -->
+    <section class="analytics-section">
+      <div class="analytics-header">
+        <h2>Visual Analytics &amp; Conversion Infographics</h2>
+        <span class="scope-chip" id="analyticsScopeChip">Scope: All Courses • Last 3 Months (90d)</span>
+      </div>
+
+      <!-- Top Infographic Grid: Card A (Course Donut) + Card B (Monthly Leads vs Conversions) -->
+      <div class="infographic-top-grid">
+        <!-- CARD A: Course-Wise Enquiry Infographic (Interactive SVG Donut + Breakdown Legend) -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div>
+              <div class="chart-card-title">Course-Wise Enquiry Distribution</div>
+              <div class="chart-card-sub" id="donutSubtitle">Click any slice or course row to filter leads</div>
+            </div>
+            <button type="button" class="btn btn-sm no-print" id="resetCourseFilterBtn" style="display:none;">
+              Show All Courses
+            </button>
+          </div>
+
+          <div class="donut-layout">
+            <div class="donut-svg-wrap" id="courseDonutSvgWrap"></div>
+            <div class="donut-legend" id="courseDonutLegend"></div>
+          </div>
+        </div>
+
+        <!-- CARD B: Month-Wise Leads vs Admissions & Conversion % Infographic -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div>
+              <div class="chart-card-title" id="monthlyChartTitle">Month-Wise Leads vs Admissions &amp; Conversion %</div>
+              <div class="chart-card-sub" id="monthlyChartSubtitle">Last 6 calendar months • Respects active course filter</div>
+            </div>
+            <div class="chart-legend-strip">
+              <span class="chart-legend-item"><span class="swatch-box" style="background:#1E293B;"></span>Leads</span>
+              <span class="chart-legend-item"><span class="swatch-box" style="background:#059669;"></span>Admitted</span>
+              <span class="chart-legend-item"><span class="swatch-line" style="background:#D97706;"></span>Conv %</span>
+              <span class="chart-legend-item"><span class="swatch-dashed"></span>40% SOP</span>
+            </div>
+          </div>
+
+          <div class="monthly-svg-wrap" id="monthlyChartSvgWrap"></div>
+
+          <div class="monthly-mini-table-wrap">
+            <table class="mini-table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Leads</th>
+                  <th>Trials</th>
+                  <th>Admitted</th>
+                  <th>Conv %</th>
+                </tr>
+              </thead>
+              <tbody id="monthlyMiniTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD C: Full-Width SOP Conversion Funnel Infographic -->
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">SOP Conversion Funnel &amp; Drop-Off Diagnostics</div>
+            <div class="chart-card-sub">Enquiry → &lt;5 Min Call → 30-Min Free Trial → Admission (vs 40% SOP Benchmark)</div>
+          </div>
+          <span class="bottleneck-pill" id="funnelBottleneckBadge">Analyzing funnel...</span>
+        </div>
+
+        <div class="funnel-grid" id="funnelStepsGrid"></div>
+      </div>
+    </section>
+
+    <!-- 6. MAIN ENQUIRY & CONVERSION TRACKER TABLE -->
+    <section class="table-card">
+      <div class="table-toolbar">
+        <div>
+          <strong style="font-size: 15px;" id="tableHeading">All Courses Enquiries (0)</strong>
+          <div style="font-size: 12px; color: var(--text-muted);">Auto-calculates follow-up dates per SOP &amp; syncs to Google Sheets</div>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button type="button" class="btn btn-sm" id="manualSyncBtn">🔄 Sync Sheet</button>
+          <button type="button" class="btn btn-sm" id="exportCsvBtn">📊 Export CSV</button>
+          <button type="button" class="btn btn-sm" id="backupJsonBtn">💾 Backup</button>
+          <button type="button" class="btn btn-sm" id="restoreJsonBtn">📂 Restore</button>
+          <input type="file" id="restoreFileInput" accept=".json,application/json" style="display:none;" />
+          <button type="button" class="btn btn-sm btn-danger-outline" id="clearSampleBtn" style="display:none;">🗑 Clear Sample Data</button>
+        </div>
+      </div>
+
+      <!-- Desktop & Print Table -->
+      <div class="table-wrap">
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th>Enquiry Date</th>
+              <th>Student &amp; Phone</th>
+              <th>Course &amp; Goal</th>
+              <th>Call &lt;5m?</th>
+              <th>Trial Date &amp; Attended</th>
+              <th>SOP Stage</th>
+              <th>Auto Follow-Up Date</th>
+              <th class="no-print">Quick Actions</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Mobile Card List -->
+      <div class="mobile-cards-list" id="leadsMobileList"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>HS Music, Preetamnagar, Prayagraj • Google Lead Conversion System CRM (v3)</span>
+    <span>100% Offline Ready + Live Google Sheets Cloud Sync + A4 PDF Infographics</span>
+  </footer>
+
+  <!-- =========================================================================
+       MODAL 1: FRONT-SCREEN AUTOMATIC FOLLOW-UP REMINDER POPUP
+  ========================================================================= -->
+  <div class="modal-backdrop" id="reminderModal">
+    <div class="modal modal-lg">
+      <div class="modal-header" style="background: #FFFBEB; border-bottom-color: #FDE68A;">
+        <div>
+          <h3 style="color: #92400E;">🔔 Today's Auto Follow-Up Reminders</h3>
+          <p style="font-size: 12px; color: #B45309; margin-top: 2px;">In leads par aaj follow-up due hai. Neeche se seedha Call, SOP WhatsApp ya Next Stage mark karein.</p>
+        </div>
+        <button type="button" class="modal-close" data-close-modal="reminderModal">✕</button>
+      </div>
+      <div class="modal-body" id="reminderListContainer"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-close-modal="reminderModal">Close Reminder</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: ADD / EDIT LEAD MODAL (AUTO FOLLOW-UP ENGINE)
+  ========================================================================= -->
+  <div class="modal-backdrop" id="leadModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="leadModalTitle">Add New Enquiry (Auto Follow-Up)</h3>
+        <button type="button" class="modal-close" data-close-modal="leadModal">✕</button>
+      </div>
+      <form id="leadForm" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+        <div class="modal-body">
+          <input type="hidden" id="leadId" />
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="leadName">Student / Parent Name *</label>
+              <input type="text" id="leadName" class="input" required placeholder="e.g. Aarav Sharma" />
+            </div>
+
+            <div class="form-group">
+              <label for="leadPhone">Phone / WhatsApp Number *</label>
+              <input type="tel" id="leadPhone" class="input" required placeholder="e.g. 9839012345" />
+            </div>
+
+            <div class="form-group">
+              <label for="leadCourse">Course Interested *</label>
+              <select id="leadCourse" required>
+                <option value="Flute">Flute</option>
+                <option value="Guitar">Guitar</option>
+                <option value="Advance Guitar">Advance Guitar</option>
+                <option value="Electric Guitar">Electric Guitar</option>
+                <option value="Piano">Piano</option>
+                <option value="Singing">Singing</option>
+                <option value="Dance">Dance</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="leadEnquiryDate">Enquiry Date *</label>
+              <input type="date" id="leadEnquiryDate" class="input" required />
+            </div>
+
+            <div class="form-group">
+              <label for="leadGoal">For Whom &amp; Goal (SOP Qualify)</label>
+              <select id="leadGoal">
+                <option value="Self - Hobby">Self — Hobby</option>
+                <option value="Child - Hobby">Child — Hobby</option>
+                <option value="Self - Stage / YouTube">Self — Stage / YouTube</option>
+                <option value="Child - Certification">Child — Proper Certification</option>
+                <option value="Self - Certification">Self — Proper Certification</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="leadSource">Lead Source</label>
+              <select id="leadSource">
+                <option value="Google">Google Business / Search</option>
+                <option value="Walk-in">Walk-in (Preetamnagar)</option>
+                <option value="Instagram">Instagram / YouTube</option>
+                <option value="Referral">Student Referral</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="leadCall5m">Called Within 5 Mins? (SOP Rule)</label>
+              <select id="leadCall5m">
+                <option value="yes">Yes — Called &lt; 5 mins ✓</option>
+                <option value="no">No / Pending Call</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="leadStage">SOP Stage (Auto-Sets Follow-Up)</label>
+              <select id="leadStage">
+                <option value="New">New (Auto +2 Days Follow-up)</option>
+                <option value="Trial Booked">Trial Booked (Reminder on Trial Day)</option>
+                <option value="Trial Done - Day 0">Trial Done - Day 0 (2-Hr WhatsApp)</option>
+                <option value="Follow-up Day 2">Follow-up Day 2 (Social Proof Reel)</option>
+                <option value="Follow-up Day 5">Follow-up Day 5 (Urgency / 2 Seats)</option>
+                <option value="Follow-up Day 7">Follow-up Day 7 (Break-up Msg)</option>
+                <option value="Admitted">Admitted ✓</option>
+                <option value="Lost">Lost</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="leadTrialDate">30-Min Free Trial Date</label>
+              <input type="date" id="leadTrialDate" class="input" />
+            </div>
+
+            <div class="form-group">
+              <label for="leadAttended">Trial Attended?</label>
+              <select id="leadAttended">
+                <option value="Pending">Pending</option>
+                <option value="Yes">Yes — Attended</option>
+                <option value="No">No — No Show</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="leadNextFollowUp">Next Follow-Up Date (Auto-Calculated)</label>
+              <input type="date" id="leadNextFollowUp" class="input" />
+              <div class="auto-hint" id="autoFollowUpHint">Auto-set: +2 days from enquiry date</div>
+            </div>
+
+            <div class="form-group">
+              <label for="leadPlan">Desk Closing Plan Pitched</label>
+              <select id="leadPlan">
+                <option value="3-Month Quarterly (10% Off)">3-Month Quarterly (10% Off - Primary)</option>
+                <option value="Monthly Plan">Monthly Plan (Backup)</option>
+                <option value="Undecided">Not Pitched Yet</option>
+              </select>
+            </div>
+
+            <div class="form-group full">
+              <label for="leadNotes">Notes / Favourite Song / Batch Preference</label>
+              <textarea id="leadNotes" rows="2" placeholder="e.g. Evening 5 PM batch preferred, favourite song: Tum Hi Ho, parent will confirm by Friday..."></textarea>
+            </div>
+          </div>
+
+          <div class="inline-error" id="leadFormError"></div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn" data-close-modal="leadModal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Lead &amp; Sync</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 3: GOOGLE SHEET & CLOUD STORAGE SETUP (APPS SCRIPT)
+  ========================================================================= -->
+  <div class="modal-backdrop" id="cloudModal">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h3>☁️ Google Sheet &amp; Cloud Storage Setup (Apps Script)</h3>
+        <button type="button" class="modal-close" data-close-modal="cloudModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: var(--blue-bg); border: 1px solid var(--blue-border); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 13px; color: #1E3A8A;">
+          <strong>Kaise Kaam Karta Hai:</strong> Aapki Google Sheet hi aapka free Cloud Database ban jayegi. Jab bhi aap yahan koi lead add ya update karenge, woh turant aapki Google Sheet mein save ho jayegi, aur kisi bhi device se kholne par data wapas load ho jayega.
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="appsScriptUrlInput">Step 1: Paste Your Google Apps Script Web App URL Here</label>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <input type="url" id="appsScriptUrlInput" class="input" style="flex: 1; min-width: 240px;" placeholder="https://script.google.com/macros/s/AKfycb.../exec" />
+            <button type="button" class="btn btn-primary" id="saveAppsScriptBtn">Save &amp; Sync Now</button>
+            <button type="button" class="btn" id="pullSheetBtn">⬇️ Pull from Sheet</button>
+          </div>
+          <div class="inline-error" id="cloudUrlError"></div>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
+            <strong style="font-size: 13px;">Step 2: Copy This Code &amp; Paste in Google Sheet → Extensions → Apps Script</strong>
+            <button type="button" class="btn btn-sm btn-primary" id="copyAppsScriptBtn">📋 Copy Apps Script Code</button>
+          </div>
+          <div class="code-box" id="appsScriptCodeBlock"></div>
+        </div>
+
+        <div style="font-size: 12.5px; color: var(--text-secondary); background: var(--surface-subtle); padding: 13px 15px; border-radius: 10px; border: 1px solid var(--border);">
+          <strong style="color: var(--text-primary);">Web App URL Kahan Milega? (Exact 6 Steps):</strong>
+          <ol style="padding-left: 18px; margin-top: 6px; line-height: 1.65;">
+            <li><strong>sheets.google.com</strong> par jakar ek nayi Blank Google Sheet banayein (naam: <code>HS Music Lead CRM</code>).</li>
+            <li>Upar menu mein <strong>Extensions → Apps Script</strong> par click karein (ek naya tab khulega).</li>
+            <li>Editor mein jo purana code (<code>myFunction</code>) likha ho use delete karein, upar copy kiya code paste karein aur <strong>Save (Ctrl+S)</strong> dabayein.</li>
+            <li>Upar right corner mein blue <strong>Deploy → New deployment</strong> button par click karein → Gear icon ⚙️ par click karke <strong>Web app</strong> chunein.</li>
+            <li><strong>Execute as:</strong> <code>Me</code> aur <strong>Who has access:</strong> <code>Anyone</code> select karke <strong>Deploy</strong> button dabayein.</li>
+            <li>Permission screen aane par <strong>Authorize access → Apna Gmail chunein → Advanced → Go to ... (unsafe) → Allow</strong> karein. Screen par <strong>Web app URL</strong> (<code>https://script.google.com/macros/s/.../exec</code>) dikhega—use Copy karke upar box mein paste karein aur <strong>Save &amp; Sync Now</strong> dabayein!</li>
+          </ol>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-close-modal="cloudModal">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 4: CALLING & WHATSAPP SOP PLAYBOOK MODAL
+  ========================================================================= -->
+  <div class="modal-backdrop" id="sopModal">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <div>
+          <h3>📋 HS Music — Google Lead Conversion SOP Playbook</h3>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Target: 20% Baseline se 40% Conversion Rate (Preetamnagar, Prayagraj)</p>
+        </div>
+        <button type="button" class="modal-close" data-close-modal="sopModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="sop-grid">
+          <div class="sop-step-card" style="border-left: 4px solid #DC2626; background: #FEF2F2;">
+            <h4 style="color: #991B1B;">🚫 GOLDEN RULE: Call Par Fees Kabhi Mat Batao</h4>
+            <p>Phone call ka goal admission close karna nahi, sirf <strong>30-Minute Free Trial Class</strong> book karna hai. Har Google enquiry par <strong>5 minute ke andar</strong> call back karein.</p>
+          </div>
+
+          <div class="sop-step-card">
+            <h4>01. 2-Minute Calling Script (Lead Aane Ke 5 Minute Ke Andar)</h4>
+            <ul>
+              <li><strong>Opening:</strong> "Hello [Name], main HS Music Preetamnagar se bol raha hoon. Aapne abhi [Course] classes ke liye enquiry ki thi—yeh aap khud ke liye dekh rahe hain ya apne bacche ke liye?"</li>
+              <li><strong>Qualify:</strong> "Badhiya. Aapka main goal kya hai—hobby ke liye seekhna hai, stage ya YouTube ke liye, ya proper certification ke saath?"</li>
+              <li><strong>Fee Objection Handle:</strong> "Fees aapke course aur batch level par depend karti hai. Lekin main recommend karunga ki bina teacher aur mahol dekhe aap decide na karein. Kal shaam 5 baje ya 6 baje hamara ek free 30-minute trial slot khali hai—kaunsa time aapke liye better rahega?"</li>
+              <li><strong>Lock the Slot:</strong> "Done, maine aapka slot [Time] par book kar diya hai. Main abhi WhatsApp par center ki location aur confirmation bhej raha hoon. Kal milte hain!"</li>
+            </ul>
+          </div>
+
+          <div class="sop-step-card">
+            <h4>02. 30-Minute Free Trial Class &amp; Desk Closing</h4>
+            <ul>
+              <li><strong>0–5 Min (Warm Welcome):</strong> Student aur parents ko comfortably bithayein, paani offer karein, favourite gaana/artist poochein.</li>
+              <li><strong>5–20 Min (Practical Win — No Theory):</strong> Teacher unhe usi favourite gaane ka 1 simple chord/melody bajwa kar dikhayein taaki pehle hi din win feel ho.</li>
+              <li><strong>20–30 Min (Desk Closing):</strong> Trial ke turant baad reception desk par <strong>3-Month Quarterly Plan (10% discount ke saath)</strong> primary pitch karein. Monthly plan sirf secondary backup rakhein.</li>
+            </ul>
+          </div>
+
+          <div class="sop-step-card">
+            <h4>03. 7-Day Automated WhatsApp Follow-Up Plan</h4>
+            <ul>
+              <li><strong>Trial Day (Subah 11 baje):</strong> Short confirmation WhatsApp bhejein taaki no-show kam ho.</li>
+              <li><strong>Day 0 (Trial ke 2 ghante baad):</strong> Positive reinforcement &amp; soft close ("is week se batch start karein?").</li>
+              <li><strong>Day 2 (Shaam 5–6 baje):</strong> Social proof — 30-sec Student Reel ya Google Review screenshot bhejein.</li>
+              <li><strong>Day 5 (Dopahar 12–1 baje):</strong> Urgency — "Batch mein sirf 2 seats bachi hain + complimentary studio jam session."</li>
+              <li><strong>Day 7 (Shaam 6 baje):</strong> Break-up message taaki dead leads revive hon.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-close-modal="sopModal">Got It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 5: CUSTOM CONFIRMATION DIALOG (REPLACES NATIVE confirm())
+  ========================================================================= -->
+  <div class="modal-backdrop" id="confirmModal">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h3 id="confirmTitle">Confirm Action</h3>
+        <button type="button" class="modal-close" id="confirmCloseX">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirmMessage" style="font-size: 13.5px; color: var(--text-secondary);"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" id="confirmCancelBtn">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmOkBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS -->
+  <div class="toast-wrap" id="toastContainer"></div>
+
+  <!-- =========================================================================
+       APPLICATION JAVASCRIPT (PURE VANILLA JS + INLINE SVG INFOGRAPHICS)
+  ========================================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* -----------------------------------------------------------------------
+         1. CONFIGURATION, COURSE PALETTE & APPS SCRIPT SOURCE
+      ----------------------------------------------------------------------- */
+      const COURSES = [
+        'Flute',
+        'Guitar',
+        'Advance Guitar',
+        'Electric Guitar',
+        'Piano',
+        'Singing',
+        'Dance',
+      ];
+
+      const COURSE_COLORS = {
+        'Flute': '#4F46E5',           // Indigo
+        'Guitar': '#0284C7',          // Sky Blue
+        'Advance Guitar': '#7C3AED',  // Violet
+        'Electric Guitar': '#DB2777', // Pink / Rose
+        'Piano': '#059669',           // Emerald
+        'Singing': '#D97706',         // Amber
+        'Dance': '#E11D48',           // Crimson Rose
+      };
+
+      const SOP_STAGES = [
+        'New',
+        'Trial Booked',
+        'Trial Done - Day 0',
+        'Follow-up Day 2',
+        'Follow-up Day 5',
+        'Follow-up Day 7',
+        'Admitted',
+        'Lost',
+      ];
+
+      const STORAGE_KEY = 'hs_music_leads_crm_v3';
+      const SCRIPT_URL_KEY = 'hs_music_apps_script_url_v2';
+
+      const APPS_SCRIPT_SOURCE = `const SHEET_NAME = "Leads";
+const HEADERS = [
+  "ID", "Enquiry Date", "Name", "Phone", "Course",
+  "Student Type & Goal", "Source", "Call <5m?", "Trial Date",
+  "Attended?", "SOP Stage", "Next Follow-up Date",
+  "Plan Pitched", "Notes", "Last Updated"
+];
+
+function getOrCreateSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(HEADERS);
+    const r = sheet.getRange(1, 1, 1, HEADERS.length);
+    r.setBackground("#111827").setFontColor("#FFFFFF").setFontWeight("bold");
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
+}
+
+function doGet(e) {
+  try {
+    const sheet = getOrCreateSheet();
+    const data = sheet.getDataRange().getValues();
+    const leads = [];
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i];
+      if (!row[0] && !row[2]) continue;
+      leads.push({
+        id: String(row[0] || ""),
+        enquiryDate: fmtDate(row[1]),
+        name: String(row[2] || ""),
+        phone: String(row[3] || ""),
+        course: String(row[4] || "Guitar"),
+        goal: String(row[5] || "Self - Hobby"),
+        source: String(row[6] || "Google"),
+        callUnder5m: String(row[7] || "No") === "Yes",
+        trialDate: fmtDate(row[8]),
+        attended: String(row[9] || "Pending"),
+        stage: String(row[10] || "New"),
+        nextFollowUp: fmtDate(row[11]),
+        plan: String(row[12] || "Undecided"),
+        notes: String(row[13] || ""),
+        updatedAt: String(row[14] || "")
+      });
+    }
+    return ContentService.createTextOutput(JSON.stringify({ status: "success", leads }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doPost(e) {
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(15000);
+    const payload = JSON.parse(e.postData.contents);
+    const sheet = getOrCreateSheet();
+    if (payload.action === "syncAll" && Array.isArray(payload.leads)) {
+      const lastRow = sheet.getLastRow();
+      if (lastRow > 1) sheet.getRange(2, 1, lastRow - 1, HEADERS.length).clearContent();
+      if (payload.leads.length > 0) {
+        const rows = payload.leads.map(l => [
+          l.id || "", l.enquiryDate || "", l.name || "",
+          "'" + String(l.phone || "").replace(/^'/, ""),
+          l.course || "", l.goal || "", l.source || "",
+          l.callUnder5m ? "Yes" : "No", l.trialDate || "",
+          l.attended || "Pending", l.stage || "New",
+          l.nextFollowUp || "", l.plan || "Undecided",
+          l.notes || "", l.updatedAt || new Date().toISOString()
+        ]);
+        sheet.getRange(2, 1, rows.length, HEADERS.length).setValues(rows);
+      }
+      sheet.autoResizeColumns(1, HEADERS.length);
+      return ContentService.createTextOutput(JSON.stringify({ status: "success", count: payload.leads.length }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Invalid action" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function fmtDate(val) {
+  if (!val) return "";
+  if (val instanceof Date) {
+    return val.getFullYear() + "-" + String(val.getMonth() + 1).padStart(2, "0") + "-" + String(val.getDate()).padStart(2, "0");
+  }
+  return String(val).trim();
+}`;
+
+      const state = {
+        leads: [],
+        selectedTimeFilter: '90', // Default: Last 3 Months (90d)
+        selectedCourseFilter: 'ALL',
+        isSyncing: false,
+        confirmCallback: null,
+      };
+
+      /* -----------------------------------------------------------------------
+         2. DATE HELPERS
+      ----------------------------------------------------------------------- */
+      function formatDateObj(d) {
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+      }
+
+      function getTodayStr() {
+        return formatDateObj(new Date());
+      }
+
+      function addDays(dateStr, days) {
+        const base = dateStr ? new Date(dateStr + 'T00:00:00') : new Date();
+        base.setDate(base.getDate() + days);
+        return formatDateObj(base);
+      }
+
+      function monthOffsetDate(monthsAgo, dayOfMonth) {
+        const now = new Date();
+        const target = new Date(now.getFullYear(), now.getMonth() - monthsAgo, 1);
+        const daysInMonth = new Date(target.getFullYear(), target.getMonth() + 1, 0).getDate();
+        let safeDay = Math.min(dayOfMonth, daysInMonth);
+        if (monthsAgo === 0 && safeDay > now.getDate()) {
+          safeDay = Math.max(1, now.getDate());
+        }
+        target.setDate(safeDay);
+        return formatDateObj(target);
+      }
+
+      function formatDisplayDate(dateStr) {
+        if (!dateStr) return '—';
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return dateStr;
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const mIdx = parseInt(parts[1], 10) - 1;
+        return `${parts[2]} ${months[mIdx] || parts[1]} ${parts[0]}`;
+      }
+
+      function getLast6MonthsBuckets() {
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const now = new Date();
+        const buckets = [];
+        for (let i = 5; i >= 0; i--) {
+          const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          const ym = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+          buckets.push({
+            key: ym,
+            shortLabel: monthNames[d.getMonth()],
+            fullLabel: `${monthNames[d.getMonth()]} ${String(d.getFullYear()).slice(-2)}`,
+          });
+        }
+        return buckets;
+      }
+
+      /* -----------------------------------------------------------------------
+         3. SOP AUTOMATIC FOLLOW-UP DATE & WHATSAPP ENGINE
+      ----------------------------------------------------------------------- */
+      function computeAutoFollowUp(stage, enquiryDate, trialDate) {
+        const today = getTodayStr();
+        const enq = enquiryDate || today;
+
+        switch (stage) {
+          case 'New':
+            return {
+              date: addDays(enq, 2),
+              hint: 'Auto-set: +2 days from enquiry date (Call <5m to book 30-min trial)',
+            };
+          case 'Trial Booked':
+            return {
+              date: trialDate || addDays(today, 1),
+              hint: trialDate
+                ? 'Auto-set: Trial Date (Send 11:00 AM confirmation WhatsApp)'
+                : 'Auto-set: Tomorrow (Lock 30-min trial slot date)',
+            };
+          case 'Trial Done - Day 0':
+            return {
+              date: trialDate || today,
+              hint: 'Auto-set: Trial Day (Send Day-0 WhatsApp 2 hrs after trial)',
+            };
+          case 'Follow-up Day 2':
+            return {
+              date: addDays(today, 2),
+              hint: 'Auto-set: +2 days (Send Student Reel / Google Review social proof)',
+            };
+          case 'Follow-up Day 5':
+            return {
+              date: addDays(today, 3),
+              hint: 'Auto-set: +3 days (Send Day-5 urgency: 2 seats left / complimentary studio jam)',
+            };
+          case 'Follow-up Day 7':
+            return {
+              date: addDays(today, 2),
+              hint: 'Auto-set: +2 days (Send Day-7 polite break-up message)',
+            };
+          case 'Admitted':
+          case 'Lost':
+            return {
+              date: '',
+              hint: 'Closed stage — no pending follow-up needed',
+            };
+          default:
+            return {
+              date: addDays(enq, 2),
+              hint: 'Auto-set: +2 days',
+            };
+        }
+      }
+
+      function getNextStage(currentStage) {
+        const flow = {
+          'New': 'Trial Booked',
+          'Trial Booked': 'Trial Done - Day 0',
+          'Trial Done - Day 0': 'Follow-up Day 2',
+          'Follow-up Day 2': 'Follow-up Day 5',
+          'Follow-up Day 5': 'Follow-up Day 7',
+          'Follow-up Day 7': 'Lost',
+        };
+        return flow[currentStage] || 'Follow-up Day 2';
+      }
+
+      function getSOPGuidanceForLead(lead) {
+        const name = lead.name || 'Student';
+        const course = lead.course || 'Music';
+        const cleanPhone = String(lead.phone || '').replace(/\D/g, '');
+        const waPhone = cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone;
+
+        let actionLabel = '';
+        let message = '';
+
+        switch (lead.stage) {
+          case 'New':
+            actionLabel = '5-Min Rule Call + Book 30-Min Free Trial (Fees call par mat batayein)';
+            message = `Hello ${name}, main HS Music Preetamnagar se bol raha hoon. Aapne abhi ${course} classes ke liye enquiry ki thi! Kal shaam 5 baje ya 6 baje hamara ek free 30-minute trial slot khali hai—kaunsa time aapke liye better rahega?`;
+            break;
+          case 'Trial Booked':
+            actionLabel = 'Trial Day 11:00 AM Confirmation WhatsApp (No-show rokne ke liye)';
+            message = `Hi ${name}, aaj HS Music Preetamnagar mein aapki ${course} ki 30-minute Free Trial Class scheduled hai. Hum aapka wait kar rahe hain! Location: Preetamnagar, Prayagraj.`;
+            break;
+          case 'Trial Done - Day 0':
+            actionLabel = 'Day 0 (Trial ke 2 ghante baad): Positive reinforcement & soft close';
+            message = `Hi ${name}, aaj HS Music aane ke liye thanks! Hamare ${course} teacher bata rahe the ki aapne kaafi jaldi pick kiya. Batayein, is week se batch start karein?`;
+            break;
+          case 'Follow-up Day 2':
+            actionLabel = 'Day 2 (Shaam 5–6 baje): Social proof — Student Reel / Google Review bhejein';
+            message = `Hi ${name}, hamare ek ${course} student ne sirf 3 mahine mein apna cover record kiya hai! Aapka slot is Friday tak hold par hai. Batayein kab se join karna chahenge?`;
+            break;
+          case 'Follow-up Day 5':
+            actionLabel = 'Day 5 (Dopahar 12–1 baje): Urgency + complimentary studio jam offer';
+            message = `Hi ${name}, hamare ${course} batch mein sirf 2 seats bachi hain. Agar aap is weekend tak enroll karte hain, toh registration fee / 1 studio jam session complimentary mil jayega.`;
+            break;
+          case 'Follow-up Day 7':
+            actionLabel = 'Day 7 (Shaam 6 baje): Break-up message (Dead leads revive karne ke liye)';
+            message = `Hi ${name}, lagta hai abhi timing match nahi ho rahi. Main aapki ${course} enquiry close kar raha hoon—jab bhi aap start karne ke liye ready hon, bas ek message drop kar dijiyega.`;
+            break;
+          default:
+            actionLabel = 'Follow up regarding batch timing & trial';
+            message = `Hi ${name}, HS Music Preetamnagar se follow-up kar rahe hain aapki ${course} classes ke regarding. Batayein kab baat kar sakte hain?`;
+        }
+
+        const waUrl = waPhone ? `https://wa.me/${waPhone}?text=${encodeURIComponent(message)}` : '#';
+        const telUrl = cleanPhone ? `tel:${cleanPhone}` : '#';
+        return { actionLabel, message, waUrl, telUrl };
+      }
+
+      /* -----------------------------------------------------------------------
+         4. 16 REALISTIC MULTI-MONTH SAMPLE LEADS (ACROSS LAST 5 MONTHS)
+      ----------------------------------------------------------------------- */
+      function seedSampleData() {
+        const today = getTodayStr();
+        state.leads = [
+          // Current Month (Month 0) — 4 leads (includes 2 due today / overdue for auto popup)
+          {
+            id: 'HS-201',
+            enquiryDate: today,
+            name: 'Rohan Verma (Sample)',
+            phone: '9839011122',
+            course: 'Flute',
+            goal: 'Self - Hobby',
+            source: 'Google',
+            callUnder5m: true,
+            trialDate: '',
+            attended: 'Pending',
+            stage: 'New',
+            nextFollowUp: today, // Due today -> Auto Popup!
+            plan: '3-Month Quarterly (10% Off)',
+            notes: 'Bansuri basics seekhna chahte hain, evening 6 PM batch',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+          {
+            id: 'HS-202',
+            enquiryDate: addDays(today, -3),
+            name: 'Kabir Mishra (Sample)',
+            phone: '9794055566',
+            course: 'Guitar',
+            goal: 'Self - Hobby',
+            source: 'Google',
+            callUnder5m: true,
+            trialDate: today,
+            attended: 'Pending',
+            stage: 'Trial Booked',
+            nextFollowUp: addDays(today, -1), // Overdue -> Red alert in Auto Popup!
+            plan: '3-Month Quarterly (10% Off)',
+            notes: '5 PM trial slot locked, favourite song: Tum Hi Ho',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+          {
+            id: 'HS-203',
+            enquiryDate: monthOffsetDate(0, 6),
+            name: 'Ananya Tiwari (Sample)',
+            phone: '9415022233',
+            course: 'Flute',
+            goal: 'Child - Hobby',
+            source: 'Google',
+            callUnder5m: true,
+            trialDate: monthOffsetDate(0, 8),
+            attended: 'Yes',
+            stage: 'Admitted',
+            nextFollowUp: '',
+            plan: '3-Month Quarterly (10% Off)',
+            notes: 'Quarterly plan enrolled at desk',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+          {
+            id: 'HS-204',
+            enquiryDate: monthOffsetDate(0, 11),
+            name: 'Siddharth Rai (Sample)',
+            phone: '9838123456',
+            course: 'Electric Guitar',
+            goal: 'Self - Stage / YouTube',
+            source: 'Instagram',
+            callUnder5m: true,
+            trialDate: monthOffsetDate(0, 13),
+            attended: 'Yes',
+            stage: 'Admitted',
+            nextFollowUp: '',
+            plan: '3-Month Quarterly (10% Off)',
+            notes: 'Lead guitar & soloing batch',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+
+          // 1 Month Ago — 4 leads (2 admitted -> 50% conv)
+          {
+            id: 'HS-205',
+            enquiryDate: monthOffsetDate(1, 5),
+            name: 'Vikramaditya Singh (Sample)',
+            phone: '9935033344',
+            course: 'Flute',
+            goal: 'Self - Stage / YouTube',
+            source: 'Google',
+            callUnder5m: true,
+            trialDate: monthOffsetDate(1, 7),
+            attended: 'Yes',
+            stage: 'Admitted',
+            nextFollowUp: '',
+            plan: '3-Month Quarterly (10% Off)',
+            notes: 'Classical + Bollywood flute',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+          {
+            id: 'HS-206',
+            enquiryDate: monthOffsetDate(1, 12),
+            name: 'Priya Pandey (Sample)',
+            phone: '9450066677',
+            course: 'Singing',
+            goal: 'Self - Stage / YouTube',
+            source: 'Walk-in',
+            callUnder5m: true,
+            trialDate: monthOffsetDate(1, 13),
+            attended: 'Yes',
+            stage: 'Admitted',
+            nextFollowUp: '',
+            plan: '3-Month Quarterly (10% Off)',
+            notes: 'Semi-classical & karaoke vocals',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+          {
+            id: 'HS-207',
+            enquiryDate: monthOffsetDate(1, 19),
+            name: 'Sneha Srivastava (Sample)',
+            phone: '9838044455',
+            course: 'Flute',
+            goal: 'Self - Hobby',
+            source: 'Google',
+            callUnder5m: false,
+            trialDate: monthOffsetDate(1, 22),
+            attended: 'Yes',
+            stage: 'Follow-up Day 5',
+            nextFollowUp: addDays(today, 2),
+            plan: 'Monthly Plan',
+            notes: 'Exams ke baad weekend batch join karengi',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+          {
+            id: 'HS-208',
+            enquiryDate: monthOffsetDate(1, 24),
+            name: 'Kunal Chaturvedi (Sample)',
+            phone: '9621098765',
+            course: 'Guitar',
+            goal: 'Self - Hobby',
+            source: 'Google',
+            callUnder5m: false,
+            trialDate: '',
+            attended: 'No',
+            stage: 'Lost',
+            nextFollowUp: '',
+            plan: 'Undecided',
+            notes: 'Called after 40 mins — already visited another center',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+
+          // 2 Months Ago — 3 leads (1 admitted -> 33% conv)
+          {
+            id: 'HS-209',
+            enquiryDate: monthOffsetDate(2, 6),
+            name: 'Aryan Gupta (Sample)',
+            phone: '9125077788',
+            course: 'Piano',
+            goal: 'Child - Certification',
+            source: 'Google',
+            callUnder5m: true,
+            trialDate: monthOffsetDate(2, 8),
+            attended: 'Yes',
+            stage: 'Admitted',
+            nextFollowUp: '',
+            plan: '3-Month Quarterly (10% Off)',
+            notes: 'Trinity Grade 1 preparation',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+          {
+            id: 'HS-210',
+            enquiryDate: monthOffsetDate(2, 15),
+            name: 'Meera Jaiswal (Sample)',
+            phone: '9415876543',
+            course: 'Dance',
+            goal: 'Child - Hobby',
+            source: 'Referral',
+            callUnder5m: true,
+            trialDate: monthOffsetDate(2, 17),
+            attended: 'Yes',
+            stage: 'Follow-up Day 7',
+            nextFollowUp: addDays(today, 3),
+            plan: 'Monthly Plan',
+            notes: 'Kathak + Bollywood fusion kids batch',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+          {
+            id: 'HS-211',
+            enquiryDate: monthOffsetDate(2, 23),
+            name: 'Harshvardhan Dubey (Sample)',
+            phone: '9839567890',
+            course: 'Advance Guitar',
+            goal: 'Self - Stage / YouTube',
+            source: 'Instagram',
+            callUnder5m: true,
+            trialDate: monthOffsetDate(2, 25),
+            attended: 'No',
+            stage: 'Lost',
+            nextFollowUp: '',
+            plan: 'Undecided',
+            notes: 'Relocated outside Prayagraj',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+
+          // 3 Months Ago — 3 leads (1 admitted -> 33% conv)
+          {
+            id: 'HS-212',
+            enquiryDate: monthOffsetDate(3, 8),
+            name: 'Ishita Kesharwani (Sample)',
+            phone: '9794234567',
+            course: 'Singing',
+            goal: 'Child - Certification',
+            source: 'Google',
+            callUnder5m: true,
+            trialDate: monthOffsetDate(3, 10),
+            attended: 'Yes',
+            stage: 'Admitted',
+            nextFollowUp: '',
+            plan: '3-Month Quarterly (10% Off)',
+            notes: 'Prayag Sangeet Samiti vocal prep',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+          {
+            id: 'HS-213',
+            enquiryDate: monthOffsetDate(3, 17),
+            name: 'Devansh Shukla (Sample)',
+            phone: '9450345678',
+            course: 'Guitar',
+            goal: 'Self - Hobby',
+            source: 'Google',
+            callUnder5m: false,
+            trialDate: monthOffsetDate(3, 20),
+            attended: 'Yes',
+            stage: 'Lost',
+            nextFollowUp: '',
+            plan: 'Monthly Plan',
+            notes: 'Timing clash with coaching classes',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+          {
+            id: 'HS-214',
+            enquiryDate: monthOffsetDate(3, 25),
+            name: 'Nandini Tripathi (Sample)',
+            phone: '9935456789',
+            course: 'Flute',
+            goal: 'Self - Hobby',
+            source: 'Walk-in',
+            callUnder5m: true,
+            trialDate: monthOffsetDate(3, 27),
+            attended: 'Yes',
+            stage: 'Lost',
+            nextFollowUp: '',
+            plan: 'Undecided',
+            notes: 'Wanted morning 8 AM slot',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+
+          // 4 Months Ago — 2 leads (1 admitted -> 50% conv)
+          {
+            id: 'HS-215',
+            enquiryDate: monthOffsetDate(4, 10),
+            name: 'Pranav Agarwal (Sample)',
+            phone: '9838654321',
+            course: 'Piano',
+            goal: 'Self - Hobby',
+            source: 'Google',
+            callUnder5m: true,
+            trialDate: monthOffsetDate(4, 12),
+            attended: 'Yes',
+            stage: 'Admitted',
+            nextFollowUp: '',
+            plan: '3-Month Quarterly (10% Off)',
+            notes: 'Completed first quarterly term',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+          {
+            id: 'HS-216',
+            enquiryDate: monthOffsetDate(4, 22),
+            name: 'Tanya Maurya (Sample)',
+            phone: '9415765432',
+            course: 'Dance',
+            goal: 'Self - Hobby',
+            source: 'Instagram',
+            callUnder5m: false,
+            trialDate: '',
+            attended: 'No',
+            stage: 'Lost',
+            nextFollowUp: '',
+            plan: 'Undecided',
+            notes: 'No response on follow-up',
+            isSample: true,
+            updatedAt: new Date().toISOString(),
+          },
+        ];
+        saveLocalOnly();
+      }
+
+      function saveLocalOnly() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state.leads));
+        } catch (err) {
+          console.error('localStorage save failed:', err);
+          showToast('Local storage full — please download JSON backup.', 'error');
+        }
+      }
+
+      function persistAndSync() {
+        saveLocalOnly();
+        renderAll();
+        const url = localStorage.getItem(SCRIPT_URL_KEY);
+        if (url) syncWithGoogleSheet(false);
+      }
+
+      /* -----------------------------------------------------------------------
+         5. FILTERING HELPERS
+      ----------------------------------------------------------------------- */
+      function getTimeFilteredLeads() {
+        if (state.selectedTimeFilter === 'all') return state.leads;
+        const days = parseInt(state.selectedTimeFilter, 10);
+        const cutoff = addDays(getTodayStr(), -days);
+        return state.leads.filter((l) => (l.enquiryDate || '') >= cutoff);
+      }
+
+      function getFilteredLeads() {
+        const timeLeads = getTimeFilteredLeads();
+        const search = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+        const stageFilter = document.getElementById('stageFilter').value;
+        const today = getTodayStr();
+
+        return timeLeads
+          .filter((l) => {
+            if (state.selectedCourseFilter !== 'ALL' && l.course !== state.selectedCourseFilter) return false;
+            if (stageFilter === 'DUE') {
+              const closed = l.stage === 'Admitted' || l.stage === 'Lost';
+              if (closed || !l.nextFollowUp || l.nextFollowUp > today) return false;
+            } else if (stageFilter !== 'ALL' && l.stage !== stageFilter) {
+              return false;
+            }
+            if (search) {
+              const hay = `${l.name} ${l.phone} ${l.course} ${l.notes} ${l.source} ${l.goal}`.toLowerCase();
+              if (!hay.includes(search)) return false;
+            }
+            return true;
+          })
+          .sort((a, b) => (b.enquiryDate || '').localeCompare(a.enquiryDate || ''));
+      }
+
+      function getDueLeads() {
+        const today = getTodayStr();
+        return state.leads
+          .filter((l) => {
+            if (l.stage === 'Admitted' || l.stage === 'Lost') return false;
+            if (!l.nextFollowUp) return false;
+            return l.nextFollowUp <= today;
+          })
+          .sort((a, b) => (a.nextFollowUp || '').localeCompare(b.nextFollowUp || ''));
+      }
+
+      function isTrialLead(l) {
+        return Boolean(
+          l.trialDate ||
+          l.attended === 'Yes' ||
+          ['Trial Booked', 'Trial Done - Day 0', 'Follow-up Day 2', 'Follow-up Day 5', 'Follow-up Day 7', 'Admitted'].includes(l.stage)
+        );
+      }
+
+      /* -----------------------------------------------------------------------
+         6. INFOGRAPHIC RENDERERS (PURE INLINE SVG)
+      ----------------------------------------------------------------------- */
+
+      /**
+       * CARD A: Course-Wise Enquiry Infographic (Interactive SVG Donut + Breakdown Legend)
+       */
+      function renderCourseDonutInfographic(timeLeads) {
+        const svgWrap = document.getElementById('courseDonutSvgWrap');
+        const legendEl = document.getElementById('courseDonutLegend');
+        const resetBtn = document.getElementById('resetCourseFilterBtn');
+
+        resetBtn.style.display = state.selectedCourseFilter !== 'ALL' ? 'inline-flex' : 'none';
+
+        const total = timeLeads.length;
+        const stats = COURSES.map((course) => {
+          const cLeads = timeLeads.filter((l) => l.course === course);
+          const count = cLeads.length;
+          const admitted = cLeads.filter((l) => l.stage === 'Admitted').length;
+          const share = total > 0 ? Math.round((count / total) * 100) : 0;
+          const conv = count > 0 ? Math.round((admitted / count) * 100) : 0;
+          return {
+            course,
+            color: COURSE_COLORS[course] || '#4F46E5',
+            count,
+            admitted,
+            share,
+            conv,
+          };
+        });
+
+        // Build SVG Donut Geometry
+        const cx = 100;
+        const cy = 100;
+        const outerR = 84;
+        const innerR = 54;
+        const nonZero = stats.filter((s) => s.count > 0);
+
+        let slicesSvg = '';
+        if (total === 0) {
+          slicesSvg = `
+            <circle cx="${cx}" cy="${cy}" r="${(outerR + innerR) / 2}" fill="none" stroke="#E5E7EB" stroke-width="${outerR - innerR}" />
+          `;
+        } else if (nonZero.length === 1) {
+          const single = nonZero[0];
+          const dimmed = state.selectedCourseFilter !== 'ALL' && state.selectedCourseFilter !== single.course;
+          slicesSvg = `
+            <circle cx="${cx}" cy="${cy}" r="${(outerR + innerR) / 2}"
+              fill="none" stroke="${single.color}" stroke-width="${outerR - innerR}"
+              class="donut-slice ${dimmed ? 'dimmed' : ''}"
+              data-donut-course="${escapeAttr(single.course)}">
+              <title>${escapeHtml(single.course)}: ${single.count} enquiries (100%)</title>
+            </circle>
+          `;
+        } else {
+          let currentAngle = -90;
+          nonZero.forEach((item) => {
+            const angleSpan = (item.count / total) * 360;
+            const startRad = (currentAngle * Math.PI) / 180;
+            const endRad = ((currentAngle + angleSpan) * Math.PI) / 180;
+
+            const x1 = cx + outerR * Math.cos(startRad);
+            const y1 = cy + outerR * Math.sin(startRad);
+            const x2 = cx + outerR * Math.cos(endRad);
+            const y2 = cy + outerR * Math.sin(endRad);
+
+            const x3 = cx + innerR * Math.cos(endRad);
+            const y3 = cy + innerR * Math.sin(endRad);
+            const x4 = cx + innerR * Math.cos(startRad);
+            const y4 = cy + innerR * Math.sin(startRad);
+
+            const largeArc = angleSpan > 180 ? 1 : 0;
+            const pathData = [
+              `M ${x1.toFixed(2)} ${y1.toFixed(2)}`,
+              `A ${outerR} ${outerR} 0 ${largeArc} 1 ${x2.toFixed(2)} ${y2.toFixed(2)}`,
+              `L ${x3.toFixed(2)} ${y3.toFixed(2)}`,
+              `A ${innerR} ${innerR} 0 ${largeArc} 0 ${x4.toFixed(2)} ${y4.toFixed(2)}`,
+              'Z',
+            ].join(' ');
+
+            const dimmed = state.selectedCourseFilter !== 'ALL' && state.selectedCourseFilter !== item.course;
+            slicesSvg += `
+              <path d="${pathData}" fill="${item.color}" stroke="#FFFFFF" stroke-width="1.8"
+                class="donut-slice ${dimmed ? 'dimmed' : ''}"
+                data-donut-course="${escapeAttr(item.course)}">
+                <title>${escapeHtml(item.course)}: ${item.count} enquiries (${item.share}%) • ${item.admitted} admitted (${item.conv}%)</title>
+              </path>
+            `;
+            currentAngle += angleSpan;
+          });
+        }
+
+        // Center Donut Metric
+        let centerBig = String(total);
+        let centerTop = 'TOTAL';
+        let centerSub = 'Enquiries';
+
+        if (state.selectedCourseFilter !== 'ALL') {
+          const activeStat = stats.find((s) => s.course === state.selectedCourseFilter);
+          if (activeStat) {
+            centerBig = String(activeStat.count);
+            centerTop = activeStat.course.length > 12 ? activeStat.course.slice(0, 11) + '…' : activeStat.course.toUpperCase();
+            centerSub = `${activeStat.share}% share`;
+          }
+        }
+
+        svgWrap.innerHTML = `
+          <svg viewBox="0 0 200 200" width="190" height="190" role="img" aria-label="Course-wise enquiry donut chart">
+            ${slicesSvg}
+            <text x="${cx}" y="${cy - 18}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#6B7280" letter-spacing="0.5">${escapeHtml(centerTop)}</text>
+            <text x="${cx}" y="${cy + 10}" text-anchor="middle" font-size="30" font-weight="800" fill="#111827">${escapeHtml(centerBig)}</text>
+            <text x="${cx}" y="${cy + 27}" text-anchor="middle" font-size="11" font-weight="600" fill="#4B5563">${escapeHtml(centerSub)}</text>
+          </svg>
+        `;
+
+        // Sort legend by count descending while preserving clean order
+        const sortedStats = [...stats].sort((a, b) => b.count - a.count);
+        legendEl.innerHTML = sortedStats.map((s) => {
+          const isSel = state.selectedCourseFilter === s.course;
+          return `
+            <div class="legend-row ${isSel ? 'selected' : ''}" data-legend-course="${escapeAttr(s.course)}" title="Click to filter ${escapeAttr(s.course)}">
+              <span class="legend-dot" style="background:${s.color};"></span>
+              <span class="legend-name">${escapeHtml(s.course)}</span>
+              <span class="legend-metric">${s.count} <span>(${s.share}%)</span></span>
+              <span class="legend-conv ${s.admitted === 0 ? 'zero' : ''}">${s.admitted} adm • ${s.conv}%</span>
+            </div>
+          `;
+        }).join('');
+
+        // Interactive click handlers on slices & legend rows
+        svgWrap.querySelectorAll('[data-donut-course]').forEach((el) => {
+          el.addEventListener('click', () => {
+            const c = el.dataset.donutCourse;
+            state.selectedCourseFilter = state.selectedCourseFilter === c ? 'ALL' : c;
+            renderAll();
+          });
+        });
+        legendEl.querySelectorAll('[data-legend-course]').forEach((row) => {
+          row.addEventListener('click', () => {
+            const c = row.dataset.legendCourse;
+            state.selectedCourseFilter = state.selectedCourseFilter === c ? 'ALL' : c;
+            renderAll();
+          });
+        });
+      }
+
+      /**
+       * CARD B: Month-Wise Leads vs Admissions & Conversion % (Grouped Bar + Trend Line SVG)
+       */
+      function renderMonthlyTrendInfographic() {
+        const svgWrap = document.getElementById('monthlyChartSvgWrap');
+        const miniBody = document.getElementById('monthlyMiniTableBody');
+        const subtitleEl = document.getElementById('monthlyChartSubtitle');
+
+        const courseScope = state.selectedCourseFilter === 'ALL'
+          ? state.leads
+          : state.leads.filter((l) => l.course === state.selectedCourseFilter);
+
+        const courseText = state.selectedCourseFilter === 'ALL' ? 'All Courses' : state.selectedCourseFilter;
+        subtitleEl.textContent = `Last 6 calendar months • Filter: ${courseText}`;
+
+        const buckets = getLast6MonthsBuckets().map((b) => {
+          const mLeads = courseScope.filter((l) => (l.enquiryDate || '').startsWith(b.key));
+          const leadsCount = mLeads.length;
+          const trialsCount = mLeads.filter(isTrialLead).length;
+          const admittedCount = mLeads.filter((l) => l.stage === 'Admitted').length;
+          const convPct = leadsCount > 0 ? Math.round((admittedCount / leadsCount) * 100) : 0;
+          return { ...b, leadsCount, trialsCount, admittedCount, convPct };
+        });
+
+        // SVG Chart Dimensions
+        const W = 580;
+        const H = 228;
+        const padLeft = 34;
+        const padRight = 40;
+        const padTop = 26;
+        const padBottom = 32;
+        const plotW = W - padLeft - padRight;
+        const plotH = H - padTop - padBottom;
+
+        const maxCount = Math.max(4, ...buckets.map((b) => b.leadsCount));
+        const niceMax = Math.ceil(maxCount / 2) * 2;
+        const slotW = plotW / buckets.length;
+        const barW = Math.min(24, slotW * 0.27);
+        const gap = 4;
+
+        // Horizontal Gridlines (0%, 25%, 50%, 75%, 100% of bar scale)
+        let gridSvg = '';
+        for (let i = 0; i <= 4; i++) {
+          const y = padTop + (plotH * i) / 4;
+          const val = Math.round(niceMax * (1 - i / 4));
+          gridSvg += `
+            <line x1="${padLeft}" y1="${y.toFixed(1)}" x2="${W - padRight}" y2="${y.toFixed(1)}" stroke="#E5E7EB" stroke-width="1" />
+            <text x="${padLeft - 7}" y="${(y + 3.5).toFixed(1)}" text-anchor="end" font-size="9.5" fill="#9CA3AF" font-weight="600">${val}</text>
+          `;
+        }
+
+        // 40% SOP Target dashed line (mapped to right-axis 0-100% conversion scale)
+        const sopY = padTop + plotH * (1 - 0.4);
+        const sopLineSvg = `
+          <line x1="${padLeft}" y1="${sopY.toFixed(1)}" x2="${W - padRight}" y2="${sopY.toFixed(1)}"
+            stroke="#D97706" stroke-width="1.3" stroke-dasharray="5 4" opacity="0.85" />
+          <rect x="${W - padRight - 78}" y="${(sopY - 15).toFixed(1)}" width="76" height="14" rx="4" fill="#FEF3C7" stroke="#FDE68A" stroke-width="0.8" />
+          <text x="${W - padRight - 40}" y="${(sopY - 5).toFixed(1)}" text-anchor="middle" font-size="8.5" font-weight="800" fill="#92400E">40% SOP Target</text>
+        `;
+
+        // Bars + Trend Line Coordinates
+        let barsSvg = '';
+        const linePoints = [];
+
+        buckets.forEach((b, idx) => {
+          const centerX = padLeft + slotW * idx + slotW / 2;
+          const leadsX = centerX - barW - gap / 2;
+          const admX = centerX + gap / 2;
+
+          const leadsH = (b.leadsCount / niceMax) * plotH;
+          const admH = (b.admittedCount / niceMax) * plotH;
+          const leadsY = padTop + plotH - leadsH;
+          const admY = padTop + plotH - admH;
+
+          // Leads Bar (Dark Slate)
+          barsSvg += `
+            <rect x="${leadsX.toFixed(1)}" y="${leadsY.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(0, leadsH).toFixed(1)}" rx="4" fill="#1E293B">
+              <title>${b.fullLabel}: ${b.leadsCount} Enquiries</title>
+            </rect>
+            <text x="${(leadsX + barW / 2).toFixed(1)}" y="${Math.max(12, leadsY - 4).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1E293B">${b.leadsCount}</text>
+          `;
+
+          // Admitted Bar (Emerald)
+          barsSvg += `
+            <rect x="${admX.toFixed(1)}" y="${admY.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(0, admH).toFixed(1)}" rx="4" fill="#059669">
+              <title>${b.fullLabel}: ${b.admittedCount} Admitted (${b.convPct}%)</title>
+            </rect>
+            <text x="${(admX + barW / 2).toFixed(1)}" y="${Math.max(12, admY - 4).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#047857">${b.admittedCount}</text>
+          `;
+
+          // X-Axis Month Label
+          barsSvg += `
+            <text x="${centerX.toFixed(1)}" y="${H - 10}" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4B5563">${b.shortLabel}</text>
+          `;
+
+          // Conversion % Line Coordinate (0%..100% scale on plotH)
+          const convY = padTop + plotH * (1 - Math.min(100, b.convPct) / 100);
+          linePoints.push({ x: centerX, y: convY, pct: b.convPct, label: b.fullLabel });
+        });
+
+        // Build Conversion Trend Path & Dots
+        let lineSvg = '';
+        if (linePoints.length > 0) {
+          const polyPts = linePoints.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+          lineSvg += `<polyline fill="none" stroke="#D97706" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" points="${polyPts}" />`;
+
+          linePoints.forEach((p) => {
+            const pillY = Math.max(4, p.y - 21);
+            lineSvg += `
+              <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.2" fill="#D97706" stroke="#FFFFFF" stroke-width="1.8">
+                <title>${p.label} Conversion: ${p.pct}%</title>
+              </circle>
+              <rect x="${(p.x - 16).toFixed(1)}" y="${pillY.toFixed(1)}" width="32" height="14" rx="7" fill="#FFFBEB" stroke="#FCD34D" stroke-width="0.9" />
+              <text x="${p.x.toFixed(1)}" y="${(pillY + 10).toFixed(1)}" text-anchor="middle" font-size="8.5" font-weight="800" fill="#92400E">${p.pct}%</text>
+            `;
+          });
+        }
+
+        // Right Y-Axis % labels
+        const rightAxisSvg = `
+          <text x="${W - padRight + 6}" y="${padTop + 4}" font-size="9" fill="#D97706" font-weight="700">100%</text>
+          <text x="${W - padRight + 6}" y="${(padTop + plotH / 2 + 3).toFixed(1)}" font-size="9" fill="#D97706" font-weight="700">50%</text>
+          <text x="${W - padRight + 6}" y="${padTop + plotH + 3}" font-size="9" fill="#D97706" font-weight="700">0%</text>
+        `;
+
+        svgWrap.innerHTML = `
+          <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly leads versus admissions and conversion trend">
+            ${gridSvg}
+            ${sopLineSvg}
+            ${barsSvg}
+            ${lineSvg}
+            ${rightAxisSvg}
+          </svg>
+        `;
+
+        // Render Month-by-Month Summary Mini-Table
+        miniBody.innerHTML = buckets.map((b) => {
+          const hitTarget = b.leadsCount > 0 && b.convPct >= 40;
+          const badgeStyle = b.leadsCount === 0
+            ? 'background:#F3F4F6; color:#6B7280;'
+            : hitTarget
+              ? 'background:#ECFDF5; color:#047857;'
+              : 'background:#FEF3C7; color:#92400E;';
+          return `
+            <tr>
+              <td>${b.fullLabel}</td>
+              <td>${b.leadsCount}</td>
+              <td>${b.trialsCount}</td>
+              <td style="color: var(--emerald);">${b.admittedCount}</td>
+              <td><span style="display:inline-block; padding:1px 7px; border-radius:999px; font-size:11px; font-weight:700; ${badgeStyle}">${b.convPct}%</span></td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      /**
+       * CARD C: Full-Width SOP Conversion Funnel & Auto Bottleneck Detection
+       */
+      function renderConversionFunnel(scopeLeads) {
+        const gridEl = document.getElementById('funnelStepsGrid');
+        const badgeEl = document.getElementById('funnelBottleneckBadge');
+
+        const total = scopeLeads.length;
+        const called5m = scopeLeads.filter((l) => l.callUnder5m).length;
+        const trials = scopeLeads.filter(isTrialLead).length;
+        const admitted = scopeLeads.filter((l) => l.stage === 'Admitted').length;
+
+        const pctCall = total > 0 ? Math.round((called5m / total) * 100) : 0;
+        const pctTrial = total > 0 ? Math.round((trials / total) * 100) : 0;
+        const pctAdm = total > 0 ? Math.round((admitted / total) * 100) : 0;
+
+        // Calculate stage-to-stage drop-off to identify biggest bottleneck
+        const dropCall = total > 0 ? Math.max(0, total - called5m) : 0;
+        const dropTrial = total > 0 ? Math.max(0, total - trials) : 0;
+        const dropPostTrial = trials > 0 ? Math.max(0, trials - admitted) : 0;
+
+        const dropCallRate = total > 0 ? Math.round((dropCall / total) * 100) : 0;
+        const dropTrialRate = total > 0 ? Math.round((dropTrial / total) * 100) : 0;
+        const dropPostTrialRate = trials > 0 ? Math.round((dropPostTrial / trials) * 100) : 0;
+
+        let bottleneckStepIdx = -1;
+        badgeEl.classList.remove('healthy');
+
+        if (total === 0) {
+          badgeEl.textContent = 'No leads in selected period';
+        } else if (pctAdm >= 40) {
+          badgeEl.classList.add('healthy');
+          badgeEl.textContent = `✓ On Target: ${pctAdm}% Conversion (Exceeds 40% SOP Goal)`;
+        } else {
+          // Pick largest leakage point
+          if (dropCallRate >= dropTrialRate && dropCallRate >= dropPostTrialRate && dropCall > 0) {
+            bottleneckStepIdx = 1;
+            badgeEl.textContent = `⚠ Biggest Bottleneck: 5-Min Call Speed (${dropCallRate}% missed <5m rule)`;
+          } else if (dropTrialRate >= dropPostTrialRate && dropTrial > 0) {
+            bottleneckStepIdx = 2;
+            badgeEl.textContent = `⚠ Biggest Bottleneck: Trial Booking (${dropTrialRate}% didn't book trial)`;
+          } else {
+            bottleneckStepIdx = 3;
+            badgeEl.textContent = `⚠ Biggest Bottleneck: Post-Trial Closing (${dropPostTrialRate}% drop after trial — use 7-Day WA SOP)`;
+          }
+        }
+
+        const steps = [
+          {
+            stepNum: 'Stage 01',
+            label: 'Total Enquiries',
+            count: total,
+            pct: total > 0 ? 100 : 0,
+            color: '#111827',
+            meta: total > 0 ? '100% baseline enquiries' : 'Add enquiries to track',
+          },
+          {
+            stepNum: 'Stage 02',
+            label: 'Called Within 5 Mins',
+            count: called5m,
+            pct: pctCall,
+            color: '#2563EB',
+            meta: total > 0 ? `<strong>${dropCall}</strong> missed 5-min SOP rule` : 'SOP speed rule',
+          },
+          {
+            stepNum: 'Stage 03',
+            label: '30-Min Trial Booked / Done',
+            count: trials,
+            pct: pctTrial,
+            color: '#7C3AED',
+            meta: total > 0 ? `<strong>${dropTrial}</strong> enquiries without trial` : 'Primary call objective',
+          },
+          {
+            stepNum: 'Stage 04',
+            label: 'Admitted (Enrolled)',
+            count: admitted,
+            pct: pctAdm,
+            color: '#047857',
+            meta: trials > 0 ? `<strong>${Math.round((admitted / trials) * 100)}%</strong> trial-to-admission close` : 'SOP Target: 40% overall',
+          },
+        ];
+
+        gridEl.innerHTML = steps.map((st, idx) => `
+          <div class="funnel-step ${bottleneckStepIdx === idx ? 'is-bottleneck' : ''}">
+            <div class="funnel-step-top">
+              <span class="funnel-step-num">${st.stepNum}</span>
+              <span class="funnel-pct-badge">${st.pct}%</span>
+            </div>
+            <div>
+              <div class="funnel-step-label">${st.label}</div>
+              <div class="funnel-step-count">${st.count}</div>
+            </div>
+            <div>
+              <div class="funnel-bar-track">
+                <div class="funnel-bar-fill" style="width:${st.pct}%; background:${st.color};"></div>
+              </div>
+              <div class="funnel-dropoff" style="margin-top:6px;">${st.meta}</div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      /* -----------------------------------------------------------------------
+         7. MASTER RENDER PIPELINE
+      ----------------------------------------------------------------------- */
+      function getStageCssClass(stage) {
+        if (stage === 'New') return 'stage-New';
+        if (stage === 'Trial Booked') return 'stage-TrialBooked';
+        if (stage === 'Trial Done - Day 0') return 'stage-TrialDone';
+        if (stage.startsWith('Follow-up')) return 'stage-FollowUp';
+        if (stage === 'Admitted') return 'stage-Admitted';
+        if (stage === 'Lost') return 'stage-Lost';
+        return '';
+      }
+
+      function renderAll() {
+        const timeLeads = getTimeFilteredLeads();
+        const filteredLeads = getFilteredLeads();
+        const dueLeads = getDueLeads();
+        const today = getTodayStr();
+
+        const timeLabelMap = {
+          '15': 'Last 15 Days (SOP)',
+          '30': 'Last 30 Days',
+          '90': 'Last 3 Months (90d)',
+          '180': 'Last 6 Months',
+          'all': 'All Time',
+        };
+        const courseLabel = state.selectedCourseFilter === 'ALL' ? 'All Courses' : state.selectedCourseFilter;
+
+        // 1. Timeframe Pills Active State
+        document.querySelectorAll('#timePills .pill').forEach((btn) => {
+          btn.classList.toggle('active', btn.dataset.days === state.selectedTimeFilter);
+        });
+
+        // 2. Due Badges & KPI Card 4
+        document.getElementById('dueCountBadge').textContent = dueLeads.length;
+        document.getElementById('kpiDue').textContent = dueLeads.length;
+        const overdueCount = dueLeads.filter((l) => l.nextFollowUp < today).length;
+        document.getElementById('kpiDueSub').textContent = overdueCount > 0
+          ? `${overdueCount} overdue • Click to view reminders`
+          : dueLeads.length > 0
+            ? 'Due today • Click to open popup →'
+            : 'All caught up for today ✓';
+
+        // 3. Course 1-Click Filter Pills with Live Counts
+        const coursePillsEl = document.getElementById('coursePills');
+        let pillsHtml = `<span class="filter-label">Course (1-Click):</span>`;
+        pillsHtml += `
+          <button type="button" class="pill ${state.selectedCourseFilter === 'ALL' ? 'active' : ''}" data-course-pill="ALL">
+            All Courses <span class="count">${timeLeads.length}</span>
+          </button>
+        `;
+        COURSES.forEach((c) => {
+          const cnt = timeLeads.filter((l) => l.course === c).length;
+          const active = state.selectedCourseFilter === c;
+          const dotColor = COURSE_COLORS[c] || '#111827';
+          pillsHtml += `
+            <button type="button" class="pill ${active ? 'active' : ''}" data-course-pill="${escapeAttr(c)}">
+              <span style="width:7px; height:7px; border-radius:50%; background:${active ? '#FFFFFF' : dotColor}; display:inline-block;"></span>
+              ${escapeHtml(c)} <span class="count">${cnt}</span>
+            </button>
+          `;
+        });
+        coursePillsEl.innerHTML = pillsHtml;
+
+        coursePillsEl.querySelectorAll('[data-course-pill]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.selectedCourseFilter = btn.dataset.coursePill;
+            renderAll();
+          });
+        });
+
+        // 4. KPI Cards 1–3
+        const scopeLeads = state.selectedCourseFilter === 'ALL'
+          ? timeLeads
+          : timeLeads.filter((l) => l.course === state.selectedCourseFilter);
+
+        const total = scopeLeads.length;
+        const trials = scopeLeads.filter(isTrialLead).length;
+        const admitted = scopeLeads.filter((l) => l.stage === 'Admitted').length;
+        const convRate = total > 0 ? Math.round((admitted / total) * 100) : 0;
+        const trialRate = total > 0 ? Math.round((trials / total) * 100) : 0;
+
+        document.getElementById('kpiTotal').textContent = total;
+        document.getElementById('kpiTotalSub').textContent = `${courseLabel} • ${timeLabelMap[state.selectedTimeFilter]}`;
+        document.getElementById('kpiTrials').textContent = trials;
+        document.getElementById('kpiTrialsSub').textContent = `Trial booking rate: ${trialRate}%`;
+        document.getElementById('kpiAdmitted').innerHTML = `${admitted} <span style="font-size: 16px; font-weight: 700; color: ${convRate >= 40 ? 'var(--emerald)' : 'var(--amber)'};">(${convRate}%)</span>`;
+
+        const barPct = Math.min(100, Math.round((convRate / 40) * 100));
+        const barEl = document.getElementById('convProgressBar');
+        barEl.style.width = barPct + '%';
+        barEl.style.background = convRate >= 40 ? 'var(--emerald)' : '#F59E0B';
+
+        // 5. Visual Infographics Dashboard (3 Cards)
+        document.getElementById('analyticsScopeChip').textContent = `Scope: ${courseLabel} • ${timeLabelMap[state.selectedTimeFilter]}`;
+        renderCourseDonutInfographic(timeLeads);
+        renderMonthlyTrendInfographic();
+        renderConversionFunnel(scopeLeads);
+
+        // 6. Table Heading, Print Meta & Sample Data Button
+        document.getElementById('tableHeading').textContent = `${courseLabel} Enquiries (${filteredLeads.length})`;
+        document.getElementById('printMetaLine').textContent =
+          `Generated: ${formatDisplayDate(today)} | Course: ${courseLabel} | Period: ${timeLabelMap[state.selectedTimeFilter]} | Total: ${total} | Trials: ${trials} | Admitted: ${admitted} (${convRate}%)`;
+
+        const hasSamples = state.leads.some((l) => l.isSample);
+        document.getElementById('clearSampleBtn').style.display = hasSamples ? 'inline-flex' : 'none';
+
+        // 7. Leads Table & Mobile Cards
+        renderLeadsTableAndMobile(filteredLeads);
+      }
+
+      function renderLeadsTableAndMobile(filteredLeads) {
+        const tbody = document.getElementById('leadsTableBody');
+        const mobileList = document.getElementById('leadsMobileList');
+        const today = getTodayStr();
+
+        if (filteredLeads.length === 0) {
+          const emptyMsg = 'Is filter mein koi enquiry nahi mili. Nayi enquiry add karne ke liye <strong>+ New Enquiry</strong> par click karein.';
+          tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:34px 16px; color:var(--text-muted);">${emptyMsg}</td></tr>`;
+          mobileList.innerHTML = `<div style="text-align:center; padding:34px 16px; color:var(--text-muted); font-size:13px;">${emptyMsg}</div>`;
+          return;
+        }
+
+        function buildFollowBadge(lead) {
+          const closed = lead.stage === 'Admitted' || lead.stage === 'Lost';
+          if (lead.stage === 'Admitted') return `<span class="badge badge-ok">Enrolled ✓</span>`;
+          if (!closed && lead.nextFollowUp) {
+            if (lead.nextFollowUp < today) return `<span class="badge badge-overdue">Overdue: ${formatDisplayDate(lead.nextFollowUp)}</span>`;
+            if (lead.nextFollowUp === today) return `<span class="badge badge-due">Today: ${formatDisplayDate(lead.nextFollowUp)}</span>`;
+            return `<span style="font-weight: 600; color: var(--text-secondary);">${formatDisplayDate(lead.nextFollowUp)}</span>`;
+          }
+          return `<span style="color: var(--text-muted);">—</span>`;
+        }
+
+        tbody.innerHTML = filteredLeads.map((lead) => {
+          const sop = getSOPGuidanceForLead(lead);
+          const stageCls = getStageCssClass(lead.stage);
+          const cColor = COURSE_COLORS[lead.course] || '#111827';
+          return `
+            <tr>
+              <td style="white-space: nowrap;">
+                <div style="font-weight: 600;">${formatDisplayDate(lead.enquiryDate)}</div>
+                <div style="font-size: 11px; color: var(--text-muted);">${escapeHtml(lead.source || 'Google')}</div>
+              </td>
+              <td>
+                <div class="lead-name">${escapeHtml(lead.name)}</div>
+                <div class="lead-meta">${escapeHtml(lead.phone)}</div>
+              </td>
+              <td>
+                <span class="badge badge-course">
+                  <span style="width:7px; height:7px; border-radius:50%; background:${cColor}; display:inline-block;"></span>
+                  ${escapeHtml(lead.course)}
+                </span>
+                <div class="lead-meta">${escapeHtml(lead.goal || '')}</div>
+              </td>
+              <td>
+                <button type="button" class="badge ${lead.callUnder5m ? 'badge-fast' : 'badge-overdue'}" style="cursor:pointer;" data-toggle-5m="${lead.id}" title="Click to toggle 5-min call rule">
+                  ${lead.callUnder5m ? 'Yes (&lt;5m) ✓' : 'Pending !'}
+                </button>
+              </td>
+              <td style="white-space: nowrap;">
+                <div style="font-weight: 600;">${formatDisplayDate(lead.trialDate)}</div>
+                <div style="font-size: 11px; color: var(--text-muted);">Attended: <strong>${escapeHtml(lead.attended || 'Pending')}</strong></div>
+              </td>
+              <td>
+                <select class="stage-select ${stageCls}" data-stage-select="${lead.id}">
+                  ${SOP_STAGES.map((st) => `<option value="${st}" ${lead.stage === st ? 'selected' : ''}>${st}</option>`).join('')}
+                </select>
+              </td>
+              <td style="white-space: nowrap;">${buildFollowBadge(lead)}</td>
+              <td class="no-print">
+                <div class="action-btns">
+                  <a href="${sop.telUrl}" class="icon-btn" title="Call Student">📞</a>
+                  <a href="${sop.waUrl}" target="_blank" rel="noopener noreferrer" class="icon-btn wa" title="Send Stage SOP WhatsApp">💬 WA</a>
+                  <button type="button" class="icon-btn" data-edit-lead="${lead.id}" title="Edit Lead">✏️</button>
+                  <button type="button" class="icon-btn" data-delete-lead="${lead.id}" title="Delete Lead" style="color: var(--danger);">🗑</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        mobileList.innerHTML = filteredLeads.map((lead) => {
+          const sop = getSOPGuidanceForLead(lead);
+          const stageCls = getStageCssClass(lead.stage);
+          const cColor = COURSE_COLORS[lead.course] || '#111827';
+          return `
+            <div class="mobile-lead-card">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                <div>
+                  <div class="lead-name">${escapeHtml(lead.name)}</div>
+                  <div class="lead-meta">${escapeHtml(lead.phone)} • ${escapeHtml(lead.source || 'Google')}</div>
+                </div>
+                <div style="font-size:11px; font-weight:600; color:var(--text-muted);">${formatDisplayDate(lead.enquiryDate)}</div>
+              </div>
+              <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;">
+                <span class="badge badge-course">
+                  <span style="width:7px; height:7px; border-radius:50%; background:${cColor}; display:inline-block;"></span>
+                  ${escapeHtml(lead.course)}
+                </span>
+                <button type="button" class="badge ${lead.callUnder5m ? 'badge-fast' : 'badge-overdue'}" style="cursor:pointer;" data-toggle-5m="${lead.id}">
+                  Call &lt;5m: ${lead.callUnder5m ? 'Yes ✓' : 'Pending'}
+                </button>
+                ${buildFollowBadge(lead)}
+              </div>
+              <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px;">
+                <select class="stage-select ${stageCls}" data-stage-select="${lead.id}">
+                  ${SOP_STAGES.map((st) => `<option value="${st}" ${lead.stage === st ? 'selected' : ''}>${st}</option>`).join('')}
+                </select>
+                <span style="font-size:12px; color:var(--text-muted);">Trial: <strong>${formatDisplayDate(lead.trialDate)}</strong> (${escapeHtml(lead.attended || 'Pending')})</span>
+              </div>
+              <div style="display:flex; gap:6px;">
+                <a href="${sop.telUrl}" class="icon-btn" style="flex:1; justify-content:center;">📞 Call</a>
+                <a href="${sop.waUrl}" target="_blank" rel="noopener noreferrer" class="icon-btn wa" style="flex:1; justify-content:center;">💬 SOP WA</a>
+                <button type="button" class="icon-btn" data-edit-lead="${lead.id}">✏️</button>
+                <button type="button" class="icon-btn" data-delete-lead="${lead.id}" style="color:var(--danger);">🗑</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Bind row listeners
+        document.querySelectorAll('[data-toggle-5m]').forEach((btn) => {
+          btn.addEventListener('click', () => toggleCall5m(btn.dataset.toggle5m));
+        });
+        document.querySelectorAll('[data-stage-select]').forEach((sel) => {
+          sel.addEventListener('change', (e) => quickStageChange(sel.dataset.stageSelect, e.target.value));
+        });
+        document.querySelectorAll('[data-edit-lead]').forEach((btn) => {
+          btn.addEventListener('click', () => openLeadModal(btn.dataset.editLead));
+        });
+        document.querySelectorAll('[data-delete-lead]').forEach((btn) => {
+          btn.addEventListener('click', () => confirmDeleteLead(btn.dataset.deleteLead));
+        });
+      }
+
+      /* -----------------------------------------------------------------------
+         8. LEAD CRUD & AUTO FOLLOW-UP HANDLERS
+      ----------------------------------------------------------------------- */
+      function openLeadModal(leadId = null) {
+        document.getElementById('leadForm').reset();
+        const errEl = document.getElementById('leadFormError');
+        errEl.classList.remove('show');
+
+        if (leadId) {
+          const lead = state.leads.find((l) => l.id === leadId);
+          if (!lead) return;
+          document.getElementById('leadModalTitle').textContent = 'Edit Lead & SOP Stage';
+          document.getElementById('leadId').value = lead.id;
+          document.getElementById('leadName').value = lead.name || '';
+          document.getElementById('leadPhone').value = lead.phone || '';
+          document.getElementById('leadCourse').value = lead.course || 'Flute';
+          document.getElementById('leadEnquiryDate').value = lead.enquiryDate || getTodayStr();
+          document.getElementById('leadGoal').value = lead.goal || 'Self - Hobby';
+          document.getElementById('leadSource').value = lead.source || 'Google';
+          document.getElementById('leadCall5m').value = lead.callUnder5m ? 'yes' : 'no';
+          document.getElementById('leadStage').value = lead.stage || 'New';
+          document.getElementById('leadTrialDate').value = lead.trialDate || '';
+          document.getElementById('leadAttended').value = lead.attended || 'Pending';
+          document.getElementById('leadNextFollowUp').value = lead.nextFollowUp || '';
+          document.getElementById('leadPlan').value = lead.plan || '3-Month Quarterly (10% Off)';
+          document.getElementById('leadNotes').value = lead.notes || '';
+          document.getElementById('autoFollowUpHint').textContent = 'Auto-recalculates when you change SOP Stage, Enquiry Date, or Trial Date';
+        } else {
+          document.getElementById('leadModalTitle').textContent = 'Add New Enquiry (Auto Follow-Up)';
+          document.getElementById('leadId').value = '';
+          document.getElementById('leadEnquiryDate').value = getTodayStr();
+          document.getElementById('leadStage').value = 'New';
+          if (state.selectedCourseFilter !== 'ALL') {
+            document.getElementById('leadCourse').value = state.selectedCourseFilter;
+          }
+          onStageOrDateChange();
+        }
+        openModal('leadModal');
+      }
+
+      function onStageOrDateChange() {
+        const stage = document.getElementById('leadStage').value;
+        const enqDate = document.getElementById('leadEnquiryDate').value;
+        const trialDate = document.getElementById('leadTrialDate').value;
+        const auto = computeAutoFollowUp(stage, enqDate, trialDate);
+        document.getElementById('leadNextFollowUp').value = auto.date;
+        document.getElementById('autoFollowUpHint').textContent = auto.hint;
+      }
+
+      function handleSaveLead(e) {
+        e.preventDefault();
+        const errEl = document.getElementById('leadFormError');
+        errEl.classList.remove('show');
+
+        const name = document.getElementById('leadName').value.trim();
+        const phone = document.getElementById('leadPhone').value.trim();
+        if (!name || !phone) {
+          errEl.textContent = 'Kripya Student Name aur Phone Number dono bharein.';
+          errEl.classList.add('show');
+          return;
+        }
+
+        const existingId = document.getElementById('leadId').value;
+        const leadObj = {
+          id: existingId || ('HS-' + Date.now().toString().slice(-6)),
+          name,
+          phone,
+          course: document.getElementById('leadCourse').value,
+          enquiryDate: document.getElementById('leadEnquiryDate').value,
+          goal: document.getElementById('leadGoal').value,
+          source: document.getElementById('leadSource').value,
+          callUnder5m: document.getElementById('leadCall5m').value === 'yes',
+          stage: document.getElementById('leadStage').value,
+          trialDate: document.getElementById('leadTrialDate').value,
+          attended: document.getElementById('leadAttended').value,
+          nextFollowUp: document.getElementById('leadNextFollowUp').value,
+          plan: document.getElementById('leadPlan').value,
+          notes: document.getElementById('leadNotes').value.trim(),
+          isSample: false,
+          updatedAt: new Date().toISOString(),
+        };
+
+        if (existingId) {
+          const idx = state.leads.findIndex((l) => l.id === existingId);
+          if (idx !== -1) state.leads[idx] = leadObj;
+          showToast('Lead updated & synced ✓');
+        } else {
+          state.leads.unshift(leadObj);
+          const fuMsg = leadObj.nextFollowUp ? ` Follow-up auto-set: ${formatDisplayDate(leadObj.nextFollowUp)}` : '';
+          showToast(`New ${leadObj.course} lead saved!${fuMsg}`);
+        }
+
+        closeModal('leadModal');
+        persistAndSync();
+      }
+
+      function quickStageChange(id, newStage) {
+        const lead = state.leads.find((l) => l.id === id);
+        if (!lead) return;
+        lead.stage = newStage;
+        if (newStage === 'Trial Done - Day 0' && lead.attended === 'Pending') {
+          lead.attended = 'Yes';
+        }
+        const auto = computeAutoFollowUp(newStage, lead.enquiryDate, lead.trialDate);
+        lead.nextFollowUp = auto.date;
+        lead.updatedAt = new Date().toISOString();
+        persistAndSync();
+        showToast(`Stage → ${newStage}${auto.date ? ' | Next follow-up: ' + formatDisplayDate(auto.date) : ''}`);
+      }
+
+      function toggleCall5m(id) {
+        const lead = state.leads.find((l) => l.id === id);
+        if (!lead) return;
+        lead.callUnder5m = !lead.callUnder5m;
+        lead.updatedAt = new Date().toISOString();
+        persistAndSync();
+      }
+
+      function confirmDeleteLead(id) {
+        const lead = state.leads.find((l) => l.id === id);
+        if (!lead) return;
+        openConfirmModal(
+          'Delete Lead',
+          `Kya aap "${lead.name}" (${lead.course}) ki enquiry ko permanently delete karna chahte hain?`,
+          'Delete Lead',
+          () => {
+            state.leads = state.leads.filter((l) => l.id !== id);
+            persistAndSync();
+            showToast('Lead deleted.');
+          }
+        );
+      }
+
+      function confirmClearSampleLeads() {
+        openConfirmModal(
+          'Clear Sample Data',
+          'Saari 16 sample leads hata dein? Aapki add ki hui real leads bilkul safe rahengi.',
+          'Clear Sample Data',
+          () => {
+            state.leads = state.leads.filter((l) => !l.isSample);
+            persistAndSync();
+            showToast('Sample data cleared. Ready for real leads!');
+          }
+        );
+      }
+
+      /* -----------------------------------------------------------------------
+         9. FRONT-SCREEN AUTO FOLLOW-UP REMINDER POPUP
+      ----------------------------------------------------------------------- */
+      function openReminderModal(manualClick = false) {
+        const dueLeads = getDueLeads();
+        const container = document.getElementById('reminderListContainer');
+        const today = getTodayStr();
+
+        if (dueLeads.length === 0) {
+          if (!manualClick) return;
+          container.innerHTML = `
+            <div style="text-align:center; padding:32px 16px;">
+              <div style="font-size:36px; margin-bottom:8px;">🎉</div>
+              <h4 style="font-size:16px; margin-bottom:4px;">Aaj Koi Pending Follow-Up Nahi Hai!</h4>
+              <p style="font-size:13px; color:var(--text-muted);">Sabhi leads ke follow-ups up-to-date hain.</p>
+            </div>
+          `;
+        } else {
+          container.innerHTML = dueLeads.map((lead) => {
+            const isOverdue = lead.nextFollowUp < today;
+            const sop = getSOPGuidanceForLead(lead);
+            const nextSt = getNextStage(lead.stage);
+            return `
+              <div class="reminder-item ${isOverdue ? 'overdue' : ''}">
+                <div class="reminder-top">
+                  <div>
+                    <strong style="font-size:15px;">${escapeHtml(lead.name)}</strong>
+                    <span class="badge badge-course" style="margin-left:6px;">${escapeHtml(lead.course)}</span>
+                    <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">
+                      📞 ${escapeHtml(lead.phone)} • Stage: <strong>${escapeHtml(lead.stage)}</strong>
+                    </div>
+                  </div>
+                  <span class="badge ${isOverdue ? 'badge-overdue' : 'badge-due'}">
+                    ${isOverdue ? 'Overdue: ' + formatDisplayDate(lead.nextFollowUp) : 'Due Today'}
+                  </span>
+                </div>
+                <div class="reminder-sop-box">
+                  <strong>SOP Action:</strong> ${escapeHtml(sop.actionLabel)}
+                </div>
+                <div class="reminder-actions">
+                  <a href="${sop.telUrl}" class="btn btn-sm">📞 Call Now</a>
+                  <a href="${sop.waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-success">💬 Send SOP WhatsApp</a>
+                  <button type="button" class="btn btn-sm btn-primary" data-advance-lead="${lead.id}">✅ Done → Move to "${escapeHtml(nextSt)}"</button>
+                  <button type="button" class="btn btn-sm" data-snooze-lead="${lead.id}">⏰ +2 Days</button>
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          container.querySelectorAll('[data-advance-lead]').forEach((btn) => {
+            btn.addEventListener('click', () => advanceLeadFromPopup(btn.dataset.advanceLead));
+          });
+          container.querySelectorAll('[data-snooze-lead]').forEach((btn) => {
+            btn.addEventListener('click', () => snoozeLeadFromPopup(btn.dataset.snoozeLead, 2));
+          });
+        }
+
+        openModal('reminderModal');
+      }
+
+      function advanceLeadFromPopup(id) {
+        const lead = state.leads.find((l) => l.id === id);
+        if (!lead) return;
+        const nextSt = getNextStage(lead.stage);
+        lead.stage = nextSt;
+        if (nextSt === 'Trial Done - Day 0' && lead.attended === 'Pending') {
+          lead.attended = 'Yes';
+        }
+        const auto = computeAutoFollowUp(nextSt, lead.enquiryDate, lead.trialDate);
+        lead.nextFollowUp = auto.date;
+        lead.updatedAt = new Date().toISOString();
+        persistAndSync();
+        showToast(`Moved to ${nextSt}${auto.date ? ' | Next: ' + formatDisplayDate(auto.date) : ''}`);
+        openReminderModal(true);
+      }
+
+      function snoozeLeadFromPopup(id, days) {
+        const lead = state.leads.find((l) => l.id === id);
+        if (!lead) return;
+        lead.nextFollowUp = addDays(getTodayStr(), days);
+        lead.updatedAt = new Date().toISOString();
+        persistAndSync();
+        showToast(`Rescheduled to ${formatDisplayDate(lead.nextFollowUp)}`);
+        openReminderModal(true);
+      }
+
+      /* -----------------------------------------------------------------------
+         10. GOOGLE SHEET & CLOUD SYNC (APPS SCRIPT)
+      ----------------------------------------------------------------------- */
+      function updateSyncBadgeState(mode = null, label = null) {
+        const pill = document.getElementById('syncStatusPill');
+        const text = document.getElementById('syncStatusText');
+        const url = localStorage.getItem(SCRIPT_URL_KEY);
+
+        pill.classList.remove('synced', 'syncing', 'error');
+
+        if (!url) {
+          text.textContent = 'Cloud: Setup Google Sheet';
+          return;
+        }
+        if (mode === 'syncing') {
+          pill.classList.add('syncing');
+          text.textContent = label || 'Syncing...';
+        } else if (mode === 'error') {
+          pill.classList.add('error');
+          text.textContent = label || 'Sync Failed (Local Safe)';
+        } else {
+          pill.classList.add('synced');
+          text.textContent = label || 'Cloud & Sheet Synced ✓';
+        }
+      }
+
+      function saveAppsScriptUrl() {
+        const input = document.getElementById('appsScriptUrlInput');
+        const errEl = document.getElementById('cloudUrlError');
+        errEl.classList.remove('show');
+        const val = input.value.trim();
+
+        if (!val) {
+          localStorage.removeItem(SCRIPT_URL_KEY);
+          updateSyncBadgeState();
+          showToast('Google Sheet URL removed.');
+          return;
+        }
+        if (!val.startsWith('https://script.google.com/')) {
+          errEl.textContent = 'Kripya valid Google Apps Script Web App URL paste karein (https://script.google.com/macros/s/.../exec)';
+          errEl.classList.add('show');
+          return;
+        }
+        localStorage.setItem(SCRIPT_URL_KEY, val);
+        syncWithGoogleSheet(true);
+      }
+
+      async function syncWithGoogleSheet(showFeedback = false) {
+        const url = localStorage.getItem(SCRIPT_URL_KEY);
+        if (!url) {
+          if (showFeedback) openModal('cloudModal');
+          return;
+        }
+        if (state.isSyncing) return;
+
+        state.isSyncing = true;
+        updateSyncBadgeState('syncing', 'Syncing...');
+
+        try {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'syncAll', leads: state.leads }),
+          });
+          const data = await res.json();
+          if (data && data.status === 'success') {
+            updateSyncBadgeState('synced', 'Cloud & Sheet Synced ✓');
+            if (showFeedback) showToast('All leads synced to Google Sheet ✓');
+          } else {
+            throw new Error((data && data.message) || 'Unknown response');
+          }
+        } catch (err) {
+          console.error('Google Sheet sync failed:', err);
+          updateSyncBadgeState('error', 'Sync Failed (Local Safe)');
+          if (showFeedback) showToast('Sync error — check Web App access is set to "Anyone".', 'error');
+        } finally {
+          state.isSyncing = false;
+        }
+      }
+
+      async function pullFromGoogleSheet(silent = false) {
+        const url = localStorage.getItem(SCRIPT_URL_KEY);
+        if (!url) {
+          if (!silent) showToast('Pehle Apps Script Web App URL save karein.', 'error');
+          return;
+        }
+
+        updateSyncBadgeState('syncing', 'Loading from Cloud...');
+        try {
+          const res = await fetch(url + '?action=getLeads&t=' + Date.now(), {
+            method: 'GET',
+            redirect: 'follow',
+          });
+          const data = await res.json();
+          if (data && data.status === 'success' && Array.isArray(data.leads)) {
+            if (data.leads.length > 0) {
+              state.leads = data.leads;
+              saveLocalOnly();
+              renderAll();
+            } else if (state.leads.length > 0) {
+              await syncWithGoogleSheet(false);
+            }
+            updateSyncBadgeState('synced', 'Cloud & Sheet Synced ✓');
+            if (!silent) showToast(`Loaded ${data.leads.length} leads from Google Sheet ✓`);
+          } else {
+            throw new Error((data && data.message) || 'Pull failed');
+          }
+        } catch (err) {
+          console.error('Pull failed:', err);
+          updateSyncBadgeState('error', 'Offline / Cached Mode');
+          if (!silent) showToast('Could not pull from Google Sheet.', 'error');
+        }
+      }
+
+      function copyAppsScriptCode() {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = APPS_SCRIPT_SOURCE;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          ta.setSelectionRange(0, ta.value.length);
+          const ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+          if (ok) showToast('Google Apps Script code copied! 📋');
+          else showToast('Code box select karke Ctrl+C dabayein.', 'error');
+        } catch (err) {
+          console.error('Copy error:', err);
+          showToast('Code box select karke Ctrl+C dabayein.', 'error');
+        }
+      }
+
+      /* -----------------------------------------------------------------------
+         11. PDF, CSV & JSON BACKUP / RESTORE
+      ----------------------------------------------------------------------- */
+      function exportPDF() {
+        showToast('Opening A4 PDF print dialog — Choose "Save as PDF"');
+        setTimeout(() => window.print(), 250);
+      }
+
+      function exportCSV() {
+        const filtered = getFilteredLeads();
+        if (filtered.length === 0) {
+          showToast('Is filter mein export karne ke liye koi lead nahi hai.', 'error');
+          return;
+        }
+        const headers = [
+          'ID', 'Enquiry Date', 'Name', 'Phone', 'Course', 'Goal',
+          'Source', 'Call <5m?', 'Trial Date', 'Attended?', 'SOP Stage',
+          'Next Follow-up Date', 'Plan Pitched', 'Notes',
+        ];
+        const rows = filtered.map((l) => [
+          l.id, l.enquiryDate, l.name, l.phone, l.course, l.goal,
+          l.source, l.callUnder5m ? 'Yes' : 'No', l.trialDate, l.attended,
+          l.stage, l.nextFollowUp, l.plan, (l.notes || '').replace(/\n/g, ' '),
+        ].map((v) => `"${String(v || '').replace(/"/g, '""')}"`).join(','));
+
+        const csv = '\uFEFF' + [headers.join(','), ...rows].join('\r\n');
+        downloadBlob(csv, `HS_Music_Leads_${getTodayStr()}.csv`, 'text/csv;charset=utf-8;');
+        showToast(`Exported ${filtered.length} leads to CSV ✓`);
+      }
+
+      function downloadBackupJSON() {
+        const json = JSON.stringify(state.leads, null, 2);
+        downloadBlob(json, `HS_Music_CRM_Backup_${getTodayStr()}.json`, 'application/json');
+        showToast('Backup JSON downloaded ✓');
+      }
+
+      function handleRestoreBackupJSON(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          try {
+            const parsed = JSON.parse(evt.target.result);
+            const restored = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.leads) ? parsed.leads : null);
+            if (!restored) {
+              showToast('Invalid JSON backup file format.', 'error');
+              return;
+            }
+            openConfirmModal(
+              'Restore Backup Data',
+              `Is backup file mein ${restored.length} leads hain. Restore karne se current leads replace ho jayengi. Continue karein?`,
+              'Restore Now',
+              () => {
+                state.leads = restored;
+                persistAndSync();
+                showToast(`Restored ${state.leads.length} leads ✓`);
+              }
+            );
+          } catch (err) {
+            console.error('Restore error:', err);
+            showToast('Backup file read nahi ho payi.', 'error');
+          } finally {
+            e.target.value = '';
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      function downloadBlob(content, filename, mime) {
+        const blob = new Blob([content], { type: mime });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+
+      /* -----------------------------------------------------------------------
+         12. MODAL, CONFIRM & TOAST UTILITIES
+      ----------------------------------------------------------------------- */
+      function openModal(id) {
+        document.getElementById(id).classList.add('open');
+      }
+
+      function closeModal(id) {
+        document.getElementById(id).classList.remove('open');
+      }
+
+      function openConfirmModal(title, message, okLabel, onConfirm) {
+        document.getElementById('confirmTitle').textContent = title;
+        document.getElementById('confirmMessage').textContent = message;
+        document.getElementById('confirmOkBtn').textContent = okLabel || 'Confirm';
+        state.confirmCallback = onConfirm;
+        openModal('confirmModal');
+      }
+
+      function closeConfirmModal() {
+        closeModal('confirmModal');
+        state.confirmCallback = null;
+      }
+
+      function showToast(msg, type = 'success') {
+        const container = document.getElementById('toastContainer');
+        const el = document.createElement('div');
+        el.className = `toast-item ${type === 'error' ? 'error' : ''}`;
+        el.textContent = msg;
+        container.appendChild(el);
+        requestAnimationFrame(() => el.classList.add('show'));
+        setTimeout(() => {
+          el.classList.remove('show');
+          setTimeout(() => el.remove(), 220);
+        }, 3200);
+      }
+
+      function escapeHtml(str) {
+        return String(str ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function escapeAttr(str) {
+        return escapeHtml(str);
+      }
+
+      /* -----------------------------------------------------------------------
+         13. EVENT BINDINGS & INIT
+      ----------------------------------------------------------------------- */
+      function bindEvents() {
+        document.getElementById('syncStatusPill').addEventListener('click', () => openModal('cloudModal'));
+        document.getElementById('reminderBellBtn').addEventListener('click', () => openReminderModal(true));
+        document.getElementById('kpiDueCard').addEventListener('click', () => openReminderModal(true));
+        document.getElementById('openSopBtn').addEventListener('click', () => openModal('sopModal'));
+        document.getElementById('bannerSopBtn').addEventListener('click', () => openModal('sopModal'));
+        document.getElementById('downloadPdfBtn').addEventListener('click', exportPDF);
+        document.getElementById('openAddLeadBtn').addEventListener('click', () => openLeadModal());
+
+        document.getElementById('resetCourseFilterBtn').addEventListener('click', () => {
+          state.selectedCourseFilter = 'ALL';
+          renderAll();
+        });
+
+        document.querySelectorAll('#timePills .pill').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.selectedTimeFilter = btn.dataset.days;
+            renderAll();
+          });
+        });
+
+        document.getElementById('searchInput').addEventListener('input', renderAll);
+        document.getElementById('stageFilter').addEventListener('change', renderAll);
+
+        document.getElementById('manualSyncBtn').addEventListener('click', () => syncWithGoogleSheet(true));
+        document.getElementById('exportCsvBtn').addEventListener('click', exportCSV);
+        document.getElementById('backupJsonBtn').addEventListener('click', downloadBackupJSON);
+        document.getElementById('restoreJsonBtn').addEventListener('click', () => document.getElementById('restoreFileInput').click());
+        document.getElementById('restoreFileInput').addEventListener('change', handleRestoreBackupJSON);
+        document.getElementById('clearSampleBtn').addEventListener('click', confirmClearSampleLeads);
+
+        document.getElementById('leadForm').addEventListener('submit', handleSaveLead);
+        document.getElementById('leadEnquiryDate').addEventListener('change', onStageOrDateChange);
+        document.getElementById('leadStage').addEventListener('change', onStageOrDateChange);
+        document.getElementById('leadTrialDate').addEventListener('change', onStageOrDateChange);
+
+        document.getElementById('saveAppsScriptBtn').addEventListener('click', saveAppsScriptUrl);
+        document.getElementById('pullSheetBtn').addEventListener('click', () => pullFromGoogleSheet(false));
+        document.getElementById('copyAppsScriptBtn').addEventListener('click', copyAppsScriptCode);
+
+        document.getElementById('confirmCancelBtn').addEventListener('click', closeConfirmModal);
+        document.getElementById('confirmCloseX').addEventListener('click', closeConfirmModal);
+        document.getElementById('confirmOkBtn').addEventListener('click', () => {
+          const cb = state.confirmCallback;
+          closeConfirmModal();
+          if (typeof cb === 'function') cb();
+        });
+
+        document.querySelectorAll('[data-close-modal]').forEach((btn) => {
+          btn.addEventListener('click', () => closeModal(btn.dataset.closeModal));
+        });
+
+        ['reminderModal', 'leadModal', 'cloudModal', 'sopModal', 'confirmModal'].forEach((id) => {
+          const el = document.getElementById(id);
+          el.addEventListener('click', (e) => {
+            if (e.target === el) {
+              if (id === 'confirmModal') closeConfirmModal();
+              else closeModal(id);
+            }
+          });
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            ['reminderModal', 'leadModal', 'cloudModal', 'sopModal'].forEach(closeModal);
+            closeConfirmModal();
+          }
+        });
+      }
+
+      function init() {
+        document.getElementById('appsScriptCodeBlock').textContent = APPS_SCRIPT_SOURCE;
+        const savedUrl = localStorage.getItem(SCRIPT_URL_KEY) || '';
+        document.getElementById('appsScriptUrlInput').value = savedUrl;
+
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) state.leads = parsed;
+          }
+        } catch (err) {
+          console.error('Parse error:', err);
+          state.leads = [];
+        }
+
+        if (state.leads.length === 0) {
+          seedSampleData();
+        }
+
+        bindEvents();
+        updateSyncBadgeState();
+        renderAll();
+
+        if (savedUrl) {
+          pullFromGoogleSheet(true);
+        }
+
+        setTimeout(() => {
+          if (getDueLeads().length > 0) {
+            openReminderModal(false);
+          }
+        }, 450);
+      }
+
+      window.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+</body>
+</html>
